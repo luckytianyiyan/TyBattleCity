@@ -14,6 +14,7 @@ class ViewController: UIViewController {
 
     @IBOutlet var sceneView: ARSCNView!
     var planes: [ARPlaneAnchor: SCNNode] = [:]
+    var selectedPlane: SCNNode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,9 @@ class ViewController: UIViewController {
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognize:)))
+        sceneView.addGestureRecognizer(tapGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +57,18 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
+    
+    // MARK: Gesture Recognizer
+    @objc func handleTap(recognize: UIGestureRecognizer) {
+        let location = recognize.location(in: sceneView)
+        let hitResults = sceneView.hitTest(location, options: [:])
+        guard let result = hitResults.first else {
+            return
+        }
+        selectedPlane = result.node
+        print("selected: \(result.node)")
+    }
+}
 
 // MARK: - ARSCNViewDelegate
 extension ViewController: ARSCNViewDelegate {
