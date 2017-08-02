@@ -13,8 +13,9 @@ import ARKit
 class ViewController: UIViewController {
 
     @IBOutlet var sceneView: ARSCNView!
-    var planes: [ARPlaneAnchor: SCNNode] = [:]
-    var selectedPlane: SCNNode?
+    var planes: [ARPlaneAnchor: PlaneNode] = [:]
+    var selectedPlane: PlaneNode?
+    var gameSceneNode: SCNNode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,10 @@ class ViewController: UIViewController {
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        let gameScene = SCNScene(named: "art.scnassets/ship.scn")!
+        gameSceneNode = gameScene.rootNode.childNode(withName: "shipMesh", recursively: true)
+        gameSceneNode?.removeFromParentNode()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognize:)))
         sceneView.addGestureRecognizer(tapGesture)
@@ -62,11 +67,13 @@ class ViewController: UIViewController {
     @objc func handleTap(recognize: UIGestureRecognizer) {
         let location = recognize.location(in: sceneView)
         let hitResults = sceneView.hitTest(location, options: [:])
-        guard let result = hitResults.first else {
+        guard let result = hitResults.first, let selectedNode = result.node as? PlaneNode, let gameSceneNode = gameSceneNode else {
             return
         }
-        selectedPlane = result.node
-        print("selected: \(result.node)")
+        selectedPlane = selectedNode
+        print("selected: \(selectedNode)")
+        selectedNode.addChildNode(gameSceneNode)
+        gameSceneNode.position = SCNVector3(selectedNode.anchor.center)
     }
 }
 
@@ -78,11 +85,7 @@ extension ViewController: ARSCNViewDelegate {
             return
         }
         print("\(anchor)")
-        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
-        
-        let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3(x: anchor.center.x, y: 0, z: anchor.center.z)
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1.0, 0.0, 0.0)
+        let planeNode = PlaneNode(anchor: anchor)
         planes[anchor] = planeNode
         node.addChildNode(planeNode)
     }
@@ -91,9 +94,7 @@ extension ViewController: ARSCNViewDelegate {
         guard let anchor = anchor as? ARPlaneAnchor, let planeNote = planes[anchor] else {
             return
         }
-        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
-        planeNote.geometry = plane
-        planeNote.position = SCNVector3(x: anchor.center.x, y: 0, z: anchor.center.z)
+        planeNote.update(anchor: anchor)
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {

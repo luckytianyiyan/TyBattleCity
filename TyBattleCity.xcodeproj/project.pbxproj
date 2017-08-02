@@ -13,6 +13,7 @@
 		191719951F30D98C003FC888 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 191719931F30D98C003FC888 /* Main.storyboard */; };
 		191719971F30D98C003FC888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 191719961F30D98C003FC888 /* Assets.xcassets */; };
 		1917199A1F30D98C003FC888 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 191719981F30D98C003FC888 /* LaunchScreen.storyboard */; };
+		1962D8281F322FAD00D892AD /* PlaneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1962D8271F322FAD00D892AD /* PlaneNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		191719961F30D98C003FC888 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		191719991F30D98C003FC888 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1917199B1F30D98C003FC888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1962D8271F322FAD00D892AD /* PlaneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				1917198D1F30D98C003FC888 /* AppDelegate.swift */,
 				1917198F1F30D98C003FC888 /* art.scnassets */,
 				191719911F30D98C003FC888 /* ViewController.swift */,
+				1962D8271F322FAD00D892AD /* PlaneNode.swift */,
 				191719931F30D98C003FC888 /* Main.storyboard */,
 				191719961F30D98C003FC888 /* Assets.xcassets */,
 				191719981F30D98C003FC888 /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				191719921F30D98C003FC888 /* ViewController.swift in Sources */,
+				1962D8281F322FAD00D892AD /* PlaneNode.swift in Sources */,
 				1917198E1F30D98C003FC888 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,6 +277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E67MQJRFZ7;
 				INFOPLIST_FILE = TyBattleCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tianyiyan.TyBattleCity;
@@ -286,6 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = E67MQJRFZ7;
 				INFOPLIST_FILE = TyBattleCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tianyiyan.TyBattleCity;
@@ -314,6 +320,7 @@
 				191719A01F30D98C003FC888 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
