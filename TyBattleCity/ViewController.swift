@@ -10,9 +10,10 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet var sceneView: ARSCNView!
+    var planes: [ARPlaneAnchor: SCNNode] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingSessionConfiguration()
+        configuration.planeDetection = .horizontal
         
         // Run the view's session
         sceneView.session.run(configuration)
@@ -52,16 +54,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    // MARK: - ARSCNViewDelegate
+// MARK: - ARSCNViewDelegate
+extension ViewController: ARSCNViewDelegate {
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        guard let anchor = anchor as? ARPlaneAnchor else {
+            return
+        }
+        print("\(anchor)")
+        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3(x: anchor.center.x, y: 0, z: anchor.center.z)
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1.0, 0.0, 0.0)
+        planes[anchor] = planeNode
+        node.addChildNode(planeNode)
     }
-*/
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        guard let anchor = anchor as? ARPlaneAnchor, let planeNote = planes[anchor] else {
+            return
+        }
+        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        planeNote.geometry = plane
+        planeNote.position = SCNVector3(x: anchor.center.x, y: 0, z: anchor.center.z)
+    }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
@@ -78,3 +95,4 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
 }
+
