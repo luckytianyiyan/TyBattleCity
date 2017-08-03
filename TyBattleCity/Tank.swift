@@ -14,16 +14,16 @@ enum Direction: Int {
     case down
     case left
     
-    var offset: int2 {
+    var offset: CGPoint {
         switch self {
         case .up:
-            return int2(x: 0, y: -1)
+            return CGPoint(x: 0, y: -1)
         case .right:
-            return int2(x: 1, y: 0)
+            return CGPoint(x: 1, y: 0)
         case .down:
-            return int2(x: 0, y: 1)
+            return CGPoint(x: 0, y: 1)
         case .left:
-            return int2(x: -1, y: 0)
+            return CGPoint(x: -1, y: 0)
         }
     }
 }
@@ -44,10 +44,15 @@ class Tank: SCNNode {
             }
         }
     }
+    var dstLocation: CGPoint?
+    
+    var size: CGSize
     
     override init() {
         let scene = SCNScene(named: "tank.scn")!
         body = scene.rootNode.childNode(withName: "tank", recursively: true)!
+        let bodyBox = body.childNode(withName: "body", recursively: true)!.geometry as! SCNBox
+        size = CGSize(width: bodyBox.width, height: bodyBox.height)
         super.init()
         addChildNode(body)
     }
@@ -66,7 +71,12 @@ class Tank: SCNNode {
     
     func move() {
         let offset = direction.offset
-        runAction(SCNAction.moveBy(x: CGFloat(offset.x), y: 0, z: CGFloat(offset.y), duration: 0.5))
+        let location = dstLocation ?? CGPoint(x: CGFloat(position.x), y: CGFloat(position.z))
+        let dst = CGPoint(x: location.x + offset.x, y: location.y + offset.y)
+        dstLocation = dst
+        runAction(SCNAction.move(to: SCNVector3(x: Float(dst.x), y: 0, z: Float(dst.y)), duration: 0.2), forKey: nil) {
+            print("moved to \(self.position)")
+        }
     }
 }
 
