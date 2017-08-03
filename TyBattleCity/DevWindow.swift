@@ -25,18 +25,18 @@ class DevWindow: UIWindow {
     }
     
     @objc func up() {
-        print("up")
+        GameController.shared.trun(to: .up)
     }
     
     @objc func down() {
-        print("down")
+        GameController.shared.trun(to: .down)
     }
     
     @objc func left() {
-        print("left")
+        GameController.shared.trun(to: .left)
     }
     
     @objc func right() {
-        print("right")
+        GameController.shared.trun(to: .right)
     }
 }
