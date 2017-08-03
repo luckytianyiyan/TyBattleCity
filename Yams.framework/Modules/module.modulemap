@@ -1,0 +1,11 @@
+framework module Yams {
+  umbrella header "Yams.h"
+
+  export *
+  module * { export * }
+}
+
+module Yams.Swift {
+    header "Yams-Swift.h"
+    requires objc
+}

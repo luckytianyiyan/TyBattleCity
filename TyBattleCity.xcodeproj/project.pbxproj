@@ -21,6 +21,7 @@
 		19DB24131F336258008A9E01 /* Tank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB24121F336258008A9E01 /* Tank.swift */; };
 		19DB24151F338045008A9E01 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB24141F338045008A9E01 /* GameController.swift */; };
 		19DB24191F3381C1008A9E01 /* DevWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB24181F3381C1008A9E01 /* DevWindow.swift */; };
+		19DB241F1F339425008A9E01 /* Yams.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19DB241E1F3393C8008A9E01 /* Yams.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		19DB24121F336258008A9E01 /* Tank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tank.swift; sourceTree = "<group>"; };
 		19DB24141F338045008A9E01 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		19DB24181F3381C1008A9E01 /* DevWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWindow.swift; sourceTree = "<group>"; };
+		19DB241E1F3393C8008A9E01 /* Yams.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yams.framework; path = Carthage/Build/iOS/Yams.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19DB241F1F339425008A9E01 /* Yams.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +58,7 @@
 			children = (
 				1917198C1F30D98C003FC888 /* TyBattleCity */,
 				1917198B1F30D98C003FC888 /* Products */,
+				19DB241D1F3393C7008A9E01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +89,14 @@
 			path = TyBattleCity;
 			sourceTree = "<group>";
 		};
+		19DB241D1F3393C7008A9E01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				19DB241E1F3393C8008A9E01 /* Yams.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -95,6 +107,7 @@
 				191719861F30D98C003FC888 /* Sources */,
 				191719871F30D98C003FC888 /* Frameworks */,
 				191719881F30D98C003FC888 /* Resources */,
+				19DB241A1F339376008A9E01 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -152,6 +165,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		19DB241A1F339376008A9E01 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(PROJECT_DIR)/Carthage/Build/iOS/Yams.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		191719861F30D98C003FC888 /* Sources */ = {
@@ -301,6 +332,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = E67MQJRFZ7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TyBattleCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tianyiyan.TyBattleCity;
@@ -315,6 +350,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = E67MQJRFZ7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = TyBattleCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tianyiyan.TyBattleCity;
