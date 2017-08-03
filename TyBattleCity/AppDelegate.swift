@@ -10,8 +10,15 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
+    
+    var devWindow: DevWindow?
+    var window: UIWindow? {
+        get {
+            devWindow = devWindow ?? DevWindow(frame: UIScreen.main.bounds)
+            return devWindow
+        }
+        set { }
+    }
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
