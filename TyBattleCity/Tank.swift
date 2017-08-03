@@ -13,6 +13,19 @@ enum Direction: Int {
     case right
     case down
     case left
+    
+    var offset: int2 {
+        switch self {
+        case .up:
+            return int2(x: 0, y: -1)
+        case .right:
+            return int2(x: 1, y: 0)
+        case .down:
+            return int2(x: 0, y: 1)
+        case .left:
+            return int2(x: -1, y: 0)
+        }
+    }
 }
 
 class Tank: SCNNode {
@@ -49,6 +62,11 @@ class Tank: SCNNode {
         }
         self.direction = direction
         print("trun to \(direction)")
+    }
+    
+    func move() {
+        let offset = direction.offset
+        runAction(SCNAction.moveBy(x: CGFloat(offset.x), y: 0, z: CGFloat(offset.y), duration: 0.5))
     }
 }
 
