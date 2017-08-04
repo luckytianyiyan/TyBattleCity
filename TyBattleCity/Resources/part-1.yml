@@ -5,3 +5,5 @@ size:
 start:
   x: 0
   y: 0
+
+datas: !!str "0202000002000000"

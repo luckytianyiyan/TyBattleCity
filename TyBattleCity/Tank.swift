@@ -46,13 +46,9 @@ class Tank: SCNNode {
     }
     var dstLocation: CGPoint?
     
-    var size: CGSize
-    
     override init() {
         let scene = SCNScene(named: "tank.scn")!
         body = scene.rootNode.childNode(withName: "tank", recursively: true)!
-        let bodyBox = body.childNode(withName: "body", recursively: true)!.geometry as! SCNBox
-        size = CGSize(width: bodyBox.width, height: bodyBox.height)
         super.init()
         addChildNode(body)
     }
