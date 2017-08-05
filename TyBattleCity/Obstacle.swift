@@ -32,7 +32,7 @@ class Obstacle: SCNNode {
         guard let body = scene.rootNode.childNode(withName: type.identifier, recursively: true) else {
             fatalError("can not load Brick")
         }
-        body.position = SCNVector3(x: 0, y: Float((body.geometry as! SCNBox).height / 2), z: 0)
+        body.position = SCNVector3(x: 0, y: 0.5, z: 0)
         self.body = body
         super.init()
         addChildNode(body)

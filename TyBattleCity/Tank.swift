@@ -17,13 +17,13 @@ enum Direction: Int {
     var offset: CGPoint {
         switch self {
         case .up:
-            return CGPoint(x: 0, y: -1)
+            return CGPoint(x: 0, y: -0.5)
         case .right:
-            return CGPoint(x: 1, y: 0)
+            return CGPoint(x: 0.5, y: 0)
         case .down:
-            return CGPoint(x: 0, y: 1)
+            return CGPoint(x: 0, y: 0.5)
         case .left:
-            return CGPoint(x: -1, y: 0)
+            return CGPoint(x: -0.5, y: 0)
         }
     }
 }

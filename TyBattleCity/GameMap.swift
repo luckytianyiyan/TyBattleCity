@@ -85,11 +85,18 @@ class GameMap: SCNNode {
     }
     
     func isPassable(_ next: SCNVector3) -> Bool {
-        guard (0..<mapSize.x).contains(Int32(next.x)), (0..<mapSize.y).contains(Int32(next.z)) else {
+        guard next.x >= 0, next.x <= Float(mapSize.x - 1), next.z >= 0, next.z <= Float(mapSize.y - 1) else {
             return false
         }
-        
-        return !obstacles.contains(where: { SCNVector3EqualToVector3($0.position, next) })
+        return !obstacles.contains(where: {
+            let position = $0.position
+            let distanceX = abs(next.x - position.x)
+            let distanceY = abs(next.z - position.z)
+            if (distanceX == 0.5 || distanceX == 0), (distanceY == 0.5 || distanceY == 0) {
+                return true
+            }
+            return false
+        })
     }
 }
 
