@@ -10,12 +10,35 @@ import UIKit
 import SceneKit
 import ARKit
 
+enum GameState: Int {
+    case selectPlane
+    case startGame
+}
+
 class ViewController: UIViewController {
+    
+    var state: GameState = .selectPlane {
+        didSet {
+            switch state {
+            case .startGame:
+                for p in planes {
+                    p.value.isHidden = true
+                }
+                selectedPlane?.isHidden = false
+                selectedPlane?.geometry = nil
+                break
+            default:
+                break
+            }
+        }
+    }
+    let gameSceneScale: Float = 0.05
 
     @IBOutlet var sceneView: ARSCNView!
     var planes: [ARPlaneAnchor: PlaneNode] = [:]
     var selectedPlane: PlaneNode?
-    var gameSceneNode: SCNNode?
+    var controlViewController: ControlViewController?
+    var axis: Axis? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,17 +50,24 @@ class ViewController: UIViewController {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene()
         
         // Set the scene to the view
         sceneView.scene = scene
         
-        let gameScene = SCNScene(named: "art.scnassets/ship.scn")!
-        gameSceneNode = gameScene.rootNode.childNode(withName: "shipMesh", recursively: true)
-        gameSceneNode?.removeFromParentNode()
+        axis = Axis()
+        axis?.scale = SCNVector3(x: gameSceneScale, y: gameSceneScale, z: gameSceneScale)
+        
+        GameController.shared.prepare(partName: "part-1")
+        GameController.shared.map.transform = SCNMatrix4MakeRotation(Float.pi / 2, 1.0, 0.0, 0.0)
+        GameController.shared.map.scale = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognize:)))
         sceneView.addGestureRecognizer(tapGesture)
+        
+        controlViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "control") as? ControlViewController
+        view.addSubview(controlViewController!.view)
+        addChildViewController(controlViewController!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,15 +95,28 @@ class ViewController: UIViewController {
     
     // MARK: Gesture Recognizer
     @objc func handleTap(recognize: UIGestureRecognizer) {
+        guard state == .selectPlane else {
+            return
+        }
         let location = recognize.location(in: sceneView)
         let hitResults = sceneView.hitTest(location, options: [:])
-        guard let result = hitResults.first, let selectedNode = result.node as? PlaneNode, let gameSceneNode = gameSceneNode else {
+        guard let result = hitResults.first, let selectedNode = result.node as? PlaneNode else {
             return
         }
         selectedPlane = selectedNode
         print("selected: \(selectedNode)")
-        selectedNode.addChildNode(gameSceneNode)
-        gameSceneNode.position = SCNVector3(selectedNode.anchor.center)
+        let node = GameController.shared.map
+        selectedNode.addChildNode(node)
+        selectedNode.addChildNode(axis!)
+        updateMapPosition(anchor: selectedNode.anchor)
+        state = .startGame
+        GameController.shared.startGame()
+    }
+    
+    func updateMapPosition(anchor: ARPlaneAnchor) {
+        let mapSize = GameController.shared.map.mapSize
+        GameController.shared.map.position = SCNVector3Make(anchor.center.x - Float(mapSize.x) * gameSceneScale * 0.5, anchor.center.y + Float(mapSize.y) * gameSceneScale * 0.5, anchor.center.z)
+        axis?.position = SCNVector3(anchor.center)
     }
 }
 
@@ -81,7 +124,7 @@ class ViewController: UIViewController {
 extension ViewController: ARSCNViewDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard let anchor = anchor as? ARPlaneAnchor else {
+        guard state == .selectPlane, let anchor = anchor as? ARPlaneAnchor else {
             return
         }
         print("\(anchor)")
@@ -95,6 +138,9 @@ extension ViewController: ARSCNViewDelegate {
             return
         }
         planeNote.update(anchor: anchor)
+        if selectedPlane?.anchor == anchor {
+            updateMapPosition(anchor: anchor)
+        }
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {

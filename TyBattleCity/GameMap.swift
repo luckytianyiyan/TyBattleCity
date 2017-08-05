@@ -20,21 +20,28 @@ extension int2 {
     }
 }
 
-class GameMap {
+class GameMap: SCNNode {
     var mapSize: int2 = int2()
     var startLocation: int2 = int2()
     var obstacles: [Obstacle] = []
-    let node: SCNNode
-    let floor: SCNNode
+    private let world: SCNNode
+    private let floor: SCNNode
     
-    init() {
+    override init() {
         guard let scene = SCNScene(named: "game.scn"),
             let world = scene.rootNode.childNode(withName: "world", recursively: false),
             let floor = world.childNode(withName: "floor", recursively: true) else {
             fatalError("can not int map")
         }
-        self.node = world
+        self.world = world
         self.floor = floor
+        super.init()
+        world.position = SCNVector3Make(0.5, -0.5, 0)
+        addChildNode(world)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func load(yaml file: String) {
@@ -60,22 +67,21 @@ class GameMap {
             let y = Int(idx / Int(mapSize.y))
             obstacle.position = SCNVector3(x: Float(x), y: 0, z: Float(y))
             obstacles.append(obstacle)
-            node.addChildNode(obstacle)
+            world.addChildNode(obstacle)
         }
         
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         cameraNode.position = SCNVector3(x: 0, y: 10, z: 15)
         cameraNode.look(at: SCNVector3())
-        node.addChildNode(cameraNode)
+        world.addChildNode(cameraNode)
+        floor.pivot = SCNMatrix4MakeTranslation((Float(-mapSize.x) + 1) / 2, 0, (Float(-mapSize.y) + 1) / 2)
     }
     
     func placePlayer(_ player: Tank) {
         player.removeFromParentNode()
-        node.addChildNode(player)
+        world.addChildNode(player)
         player.position = SCNVector3(x: Float(startLocation.x), y: 0, z: Float(startLocation.y))
-        floor.pivot = SCNMatrix4MakeTranslation((Float(-mapSize.x) + 1) / 2, 0, (Float(-mapSize.y) + 1) / 2)
-        floor.position = SCNVector3()
     }
     
     func isPassable(_ next: SCNVector3) -> Bool {

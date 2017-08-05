@@ -11,7 +11,6 @@
 		190CCD831F33BAE6007416BC /* ControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190CCD821F33BAE6007416BC /* ControlViewController.swift */; };
 		1911F51B1F324628004B0F78 /* game.scn in Resources */ = {isa = PBXBuildFile; fileRef = 1911F51A1F324628004B0F78 /* game.scn */; };
 		1911F51D1F3247A0004B0F78 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1911F51C1F3247A0004B0F78 /* GameViewController.swift */; };
-		1911F51F1F324902004B0F78 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1911F51E1F324902004B0F78 /* Player.swift */; };
 		1911F5211F324938004B0F78 /* tank.scn in Resources */ = {isa = PBXBuildFile; fileRef = 1911F5201F324938004B0F78 /* tank.scn */; };
 		1917198E1F30D98C003FC888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1917198D1F30D98C003FC888 /* AppDelegate.swift */; };
 		191719901F30D98C003FC888 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 1917198F1F30D98C003FC888 /* art.scnassets */; };
