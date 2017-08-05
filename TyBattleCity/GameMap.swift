@@ -23,7 +23,7 @@ extension int2 {
 class GameMap {
     var mapSize: int2 = int2()
     var startLocation: int2 = int2()
-    let obstacles: [Obstacle] = []
+    var obstacles: [Obstacle] = []
     let node: SCNNode
     let floor: SCNNode
     
@@ -59,6 +59,7 @@ class GameMap {
             let x = idx % Int(mapSize.x)
             let y = Int(idx / Int(mapSize.y))
             obstacle.position = SCNVector3(x: Float(x), y: 0, z: Float(y))
+            obstacles.append(obstacle)
             node.addChildNode(obstacle)
         }
         
@@ -75,6 +76,14 @@ class GameMap {
         player.position = SCNVector3(x: Float(startLocation.x), y: 0, z: Float(startLocation.y))
         floor.pivot = SCNMatrix4MakeTranslation((Float(-mapSize.x) + 1) / 2, 0, (Float(-mapSize.y) + 1) / 2)
         floor.position = SCNVector3()
+    }
+    
+    func isPassable(_ next: SCNVector3) -> Bool {
+        guard (0..<mapSize.x).contains(Int32(next.x)), (0..<mapSize.y).contains(Int32(next.z)) else {
+            return false
+        }
+        
+        return !obstacles.contains(where: { SCNVector3EqualToVector3($0.position, next) })
     }
 }
 

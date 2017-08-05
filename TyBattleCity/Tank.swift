@@ -44,7 +44,12 @@ class Tank: SCNNode {
             }
         }
     }
-    var dstLocation: CGPoint?
+    private var dstLocation: CGPoint?
+    var nextLocation: CGPoint {
+        let offset = direction.offset
+        let location = dstLocation ?? CGPoint(x: CGFloat(position.x), y: CGFloat(position.z))
+        return CGPoint(x: location.x + offset.x, y: location.y + offset.y)
+    }
     
     override init() {
         let scene = SCNScene(named: "tank.scn")!
@@ -66,11 +71,9 @@ class Tank: SCNNode {
     }
     
     func move() {
-        let offset = direction.offset
-        let location = dstLocation ?? CGPoint(x: CGFloat(position.x), y: CGFloat(position.z))
-        let dst = CGPoint(x: location.x + offset.x, y: location.y + offset.y)
-        dstLocation = dst
-        runAction(SCNAction.move(to: SCNVector3(x: Float(dst.x), y: 0, z: Float(dst.y)), duration: 0.2), forKey: nil) {
+        let next = nextLocation
+        dstLocation = next
+        runAction(SCNAction.move(to: SCNVector3(x: Float(next.x), y: 0, z: Float(next.y)), duration: 0.2), forKey: nil) {
             print("moved to \(self.position)")
         }
     }
