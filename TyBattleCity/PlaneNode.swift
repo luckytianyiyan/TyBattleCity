@@ -15,6 +15,10 @@ class PlaneNode: SCNNode {
         self.anchor = anchor
         super.init()
         let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.lightGray
+        material.isDoubleSided = true
+        plane.firstMaterial = material
         geometry = plane
         transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1.0, 0.0, 0.0)
         position = SCNVector3(x: anchor.center.x, y: 0, z: anchor.center.z)
