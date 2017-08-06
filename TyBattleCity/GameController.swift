@@ -32,7 +32,9 @@ class GameController: NSObject {
     }
     
     func fire() {
-        let bullet = player.fire()
+        let bullet = player.fire { [weak self] (bullet) in
+            self?.remove(bullet: bullet)
+        }
         bullets.append(bullet)
     }
     
@@ -42,6 +44,7 @@ class GameController: NSObject {
         }
         map.load(yaml: filepath)
         map.placePlayer(GameController.shared.player)
+        player.firingRange = CGFloat(map.mapSize.x * 2 + 10)
     }
     
     func startGame() {

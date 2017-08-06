@@ -54,13 +54,3 @@ class PlaneNode: SCNNode {
         material.normal.contentsTransform = matrix
     }
 }
-
-extension SCNMaterial {
-    public convenience init(named: String) {
-        self.init()
-        lightingModel = .physicallyBased
-        diffuse.contents = UIImage(named: "Assets.scnassets/\(named)")
-        diffuse.wrapS = .repeat
-        diffuse.wrapT = .repeat
-    }
-}

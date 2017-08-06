@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		190CCD7F1F339863007416BC /* part-1.yml in Resources */ = {isa = PBXBuildFile; fileRef = 190CCD7E1F33983C007416BC /* part-1.yml */; };
 		190CCD831F33BAE6007416BC /* ControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190CCD821F33BAE6007416BC /* ControlViewController.swift */; };
-		1911F51B1F324628004B0F78 /* game.scn in Resources */ = {isa = PBXBuildFile; fileRef = 1911F51A1F324628004B0F78 /* game.scn */; };
 		1911F51D1F3247A0004B0F78 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1911F51C1F3247A0004B0F78 /* GameViewController.swift */; };
 		1911F5211F324938004B0F78 /* tank.scn in Resources */ = {isa = PBXBuildFile; fileRef = 1911F5201F324938004B0F78 /* tank.scn */; };
 		1917198E1F30D98C003FC888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1917198D1F30D98C003FC888 /* AppDelegate.swift */; };
@@ -19,6 +18,7 @@
 		191719971F30D98C003FC888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 191719961F30D98C003FC888 /* Assets.xcassets */; };
 		1917199A1F30D98C003FC888 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 191719981F30D98C003FC888 /* LaunchScreen.storyboard */; };
 		1962D8281F322FAD00D892AD /* PlaneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1962D8271F322FAD00D892AD /* PlaneNode.swift */; };
+		197CAB0F1F3793280045FA42 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197CAB0E1F3793280045FA42 /* Utils.swift */; };
 		199519151F34E125005A2E79 /* Axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199519141F34E125005A2E79 /* Axis.swift */; };
 		199519171F34E132005A2E79 /* axis.scn in Resources */ = {isa = PBXBuildFile; fileRef = 199519161F34E132005A2E79 /* axis.scn */; };
 		199519191F34E618005A2E79 /* obstacle.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 199519181F34E5DC005A2E79 /* obstacle.scnassets */; };
@@ -33,7 +33,6 @@
 /* Begin PBXFileReference section */
 		190CCD7E1F33983C007416BC /* part-1.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = "part-1.yml"; sourceTree = "<group>"; };
 		190CCD821F33BAE6007416BC /* ControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlViewController.swift; sourceTree = "<group>"; };
-		1911F51A1F324628004B0F78 /* game.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = game.scn; sourceTree = "<group>"; };
 		1911F5201F324938004B0F78 /* tank.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = tank.scn; sourceTree = "<group>"; };
 		1917198A1F30D98C003FC888 /* TyBattleCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyBattleCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1917198D1F30D98C003FC888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +43,7 @@
 		191719991F30D98C003FC888 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1917199B1F30D98C003FC888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1962D8271F322FAD00D892AD /* PlaneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneNode.swift; sourceTree = "<group>"; };
+		197CAB0E1F3793280045FA42 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		199519141F34E125005A2E79 /* Axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
 		199519161F34E132005A2E79 /* axis.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = axis.scn; sourceTree = "<group>"; };
 		199519181F34E5DC005A2E79 /* obstacle.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = obstacle.scnassets; sourceTree = "<group>"; };
@@ -104,7 +104,6 @@
 				191719961F30D98C003FC888 /* Assets.xcassets */,
 				191719981F30D98C003FC888 /* LaunchScreen.storyboard */,
 				1917199B1F30D98C003FC888 /* Info.plist */,
-				1911F51A1F324628004B0F78 /* game.scn */,
 				19DB24141F338045008A9E01 /* GameController.swift */,
 				19DB24121F336258008A9E01 /* Tank.swift */,
 				1911F5201F324938004B0F78 /* tank.scn */,
@@ -115,6 +114,7 @@
 				19CFE3AD1F34BE4B00DDCD5D /* Obstacle.swift */,
 				199519141F34E125005A2E79 /* Axis.swift */,
 				199519161F34E132005A2E79 /* axis.scn */,
+				197CAB0E1F3793280045FA42 /* Utils.swift */,
 			);
 			path = TyBattleCity;
 			sourceTree = "<group>";
@@ -186,7 +186,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1911F51B1F324628004B0F78 /* game.scn in Resources */,
 				191719901F30D98C003FC888 /* Assets.scnassets in Resources */,
 				199519171F34E132005A2E79 /* axis.scn in Resources */,
 				1911F5211F324938004B0F78 /* tank.scn in Resources */,
@@ -233,6 +232,7 @@
 				190CCD831F33BAE6007416BC /* ControlViewController.swift in Sources */,
 				199519151F34E125005A2E79 /* Axis.swift in Sources */,
 				19DB24151F338045008A9E01 /* GameController.swift in Sources */,
+				197CAB0F1F3793280045FA42 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

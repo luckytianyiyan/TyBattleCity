@@ -52,6 +52,8 @@ class Bullet: SCNNode {
 class Tank: SCNNode {
     var body: SCNNode
     var launchingPoint: SCNNode
+    var firingRange: CGFloat = 100.0
+    var firingRate: CGFloat = 0.2
     var direction: Direction = .down {
         didSet {
             switch direction {
@@ -101,12 +103,17 @@ class Tank: SCNNode {
         }
     }
     
-    func fire() -> Bullet {
+    func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet {
         let bullet = Bullet()
         let offset = direction.offset
         bullet.position = position + launchingPoint.position
         parent?.addChildNode(bullet)
-        bullet.runAction(SCNAction.moveBy(x: offset.x * 100, y: 0, z: offset.y * 100, duration: 10))
+        let distanceX = offset.x * firingRange
+        let distanceY = offset.y * firingRange
+        let distance = sqrt(distanceX * distanceX + distanceY * distanceY)
+        bullet.runAction(SCNAction.moveBy(x: distanceX, y: 0, z: distanceY, duration: TimeInterval(firingRate * distance))) {
+            completion?(bullet)
+        }
         return bullet
     }
 }

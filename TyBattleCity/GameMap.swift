@@ -28,7 +28,7 @@ class GameMap: SCNNode {
     private let floor: SCNNode
     
     override init() {
-        guard let scene = SCNScene(named: "game.scn"),
+        guard let scene = SCNScene(named: "Assets.scnassets/game.scn"),
             let world = scene.rootNode.childNode(withName: "world", recursively: false),
             let floor = world.childNode(withName: "floor", recursively: true) else {
             fatalError("can not int map")
@@ -55,8 +55,10 @@ class GameMap: SCNNode {
         mapSize = int2.size(size)
         startLocation = int2.point(start)
         
-        (floor.geometry as! SCNFloor).width = CGFloat(mapSize.x / 2)
-        (floor.geometry as! SCNFloor).length = CGFloat(mapSize.y / 2)
+        let floorGeometry = floor.geometry as! SCNBox
+        floorGeometry.width = CGFloat(mapSize.x)
+        floorGeometry.length = CGFloat(mapSize.y)
+        floorGeometry.firstMaterial?.diffuse.contentsTransform = SCNMatrix4MakeScale(Float(mapSize.x), Float(mapSize.x), 0)
         
         for (idx, data) in datas.characters.enumerated() {
             guard let typeRaw = Int(String(data)), typeRaw != 0, let type = ObstacleType(rawValue: typeRaw) else {
