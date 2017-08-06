@@ -22,6 +22,14 @@ class GameController: NSObject {
     var map: GameMap = GameMap()
     private var timer: Timer?
     private var bullets: [Bullet] = []
+    var mapScale: Float = 1 {
+        didSet {
+            map.scale = SCNVector3(x: mapScale, y: mapScale, z: mapScale)
+            for item in map.obstacles {
+                item.updatePhysicsBody(scale: CGFloat(mapScale))
+            }
+        }
+    }
     
     private override init() {
         super.init()

@@ -23,7 +23,6 @@ class PlaneNode: SCNNode {
         
         geometry = planeGeometry
         position = SCNVector3(x: 0, y: -0.005, z: 0)
-        physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: nil))
         updateTextureScale()
     }
     
@@ -36,8 +35,6 @@ class PlaneNode: SCNNode {
         planeGeometry.width = CGFloat(anchor.extent.x)
         
         position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
-        
-        physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: nil))
         updateTextureScale()
     }
     

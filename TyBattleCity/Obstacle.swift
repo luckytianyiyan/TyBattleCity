@@ -32,11 +32,16 @@ class Obstacle: SCNNode {
         guard let body = scene.rootNode.childNode(withName: type.identifier, recursively: true) else {
             fatalError("can not load Brick")
         }
-        body.position = SCNVector3(x: 0, y: 0.5, z: 0)
         self.body = body
         super.init()
+        body.position = SCNVector3()
         addChildNode(body)
-        let physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0), options: nil))
+        updatePhysicsBody(scale: 1)
+    }
+    
+    func updatePhysicsBody(scale: CGFloat) {
+        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1 * scale, height: 1 * scale, length: 1 * scale, chamferRadius: 0), options: nil))
+        physicsBody.mass = 0
         physicsBody.categoryBitMask = CollisionMask.obstacles.rawValue
         physicsBody.collisionBitMask = CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue
         physicsBody.contactTestBitMask = CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue

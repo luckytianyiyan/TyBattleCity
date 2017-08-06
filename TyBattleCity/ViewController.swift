@@ -63,7 +63,7 @@ class ViewController: UIViewController {
         sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes]
         
         GameController.shared.prepare(partName: "part-1")
-        GameController.shared.map.scale = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
+        GameController.shared.mapScale = 0.05
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognize:)))
         sceneView.addGestureRecognizer(tapGesture)
@@ -132,13 +132,13 @@ extension ViewController: ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        guard let anchor = anchor as? ARPlaneAnchor, let planeNote = planes[anchor] else {
+        guard state == .selectPlane, let anchor = anchor as? ARPlaneAnchor, let planeNote = planes[anchor] else {
             return
         }
         planeNote.update(anchor: anchor)
-        if selectedPlane?.anchor == anchor {
-            updateMapPosition(anchor: anchor)
-        }
+//        if selectedPlane?.anchor == anchor {
+//            updateMapPosition(anchor: anchor)
+//        }
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {

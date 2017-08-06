@@ -30,13 +30,13 @@ enum Direction: Int {
 
 class Bullet: SCNNode {
     var body: SCNNode
-    override init() {
+    init(scale: Float = 1) {
         let scene = SCNScene(named: "tank.scn")!
         body = scene.rootNode.childNode(withName: "bullet", recursively: true)!
         super.init()
         body.position = SCNVector3()
         addChildNode(body)
-        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNSphere(radius: CGFloat(0.05 * scale)), options: nil))
         physicsBody.mass = 0
         physicsBody.categoryBitMask = CollisionMask.bullet.rawValue
         physicsBody.collisionBitMask = CollisionMask.bullet.rawValue | CollisionMask.obstacles.rawValue | CollisionMask.tank.rawValue
@@ -104,7 +104,7 @@ class Tank: SCNNode {
     }
     
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet {
-        let bullet = Bullet()
+        let bullet = Bullet(scale: GameController.shared.mapScale)
         let offset = direction.offset
         bullet.position = position + launchingPoint.position
         parent?.addChildNode(bullet)
