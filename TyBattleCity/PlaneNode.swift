@@ -10,18 +10,21 @@ import ARKit
 
 class PlaneNode: SCNNode {
     let anchor: ARPlaneAnchor
+    var planeGeometry: SCNBox
     
     init(anchor: ARPlaneAnchor) {
         self.anchor = anchor
+        planeGeometry = SCNBox(width: CGFloat(anchor.extent.x), height: 0.01, length: CGFloat(anchor.extent.z), chamferRadius: 0)
         super.init()
-        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.lightGray
-        material.isDoubleSided = true
-        plane.firstMaterial = material
-        geometry = plane
-        transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1.0, 0.0, 0.0)
-        position = SCNVector3(x: anchor.center.x, y: 0, z: anchor.center.z)
+        
+        let transparentMaterial = SCNMaterial()
+        transparentMaterial.diffuse.contents = UIColor.clear
+        planeGeometry.materials = [transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, SCNMaterial(named: "tron-albedo"), transparentMaterial]
+        
+        geometry = planeGeometry
+        position = SCNVector3(x: 0, y: -0.005, z: 0)
+        physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: nil))
+        updateTextureScale()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,11 +32,35 @@ class PlaneNode: SCNNode {
     }
     
     func update(anchor: ARPlaneAnchor) {
-        guard let plane = geometry as? SCNPlane else {
-            return
-        }
-        plane.height = CGFloat(anchor.extent.z)
-        plane.width = CGFloat(anchor.extent.x)
+        planeGeometry.length = CGFloat(anchor.extent.z)
+        planeGeometry.width = CGFloat(anchor.extent.x)
+        
         position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+        
+        physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: nil))
+        updateTextureScale()
+    }
+    
+    private func updateTextureScale() {
+        let width: Float = Float(planeGeometry.width)
+        let height: Float = Float(planeGeometry.length)
+        
+        let material = self.planeGeometry.materials[4];
+        let scaleFactor: Float = 1
+        let matrix: SCNMatrix4 = SCNMatrix4MakeScale(width * scaleFactor, height * scaleFactor, 1)
+        material.diffuse.contentsTransform = matrix
+        material.roughness.contentsTransform = matrix
+        material.metalness.contentsTransform = matrix
+        material.normal.contentsTransform = matrix
+    }
+}
+
+extension SCNMaterial {
+    public convenience init(named: String) {
+        self.init()
+        lightingModel = .physicallyBased
+        diffuse.contents = UIImage(named: "Assets.scnassets/\(named)")
+        diffuse.wrapS = .repeat
+        diffuse.wrapT = .repeat
     }
 }

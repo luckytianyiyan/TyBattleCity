@@ -8,10 +8,12 @@
 
 import SceneKit
 
-enum CollisionMask: Int {
-    case obstacles = 1 // 0x1 << 0
-    case tank = 2 // 0x1 << 1
-    case bullet = 4 // 0x1 << 2
+struct CollisionMask : OptionSet {
+    let rawValue: Int
+    
+    static let obstacles  = CollisionMask(rawValue: 1 << 0)
+    static let tank = CollisionMask(rawValue: 1 << 1)
+    static let bullet  = CollisionMask(rawValue: 1 << 2)
 }
 
 class GameController: NSObject {
@@ -19,6 +21,8 @@ class GameController: NSObject {
     var player: Tank = Tank()
     var map: GameMap = GameMap()
     private var timer: Timer?
+    private var bullets: [Bullet] = []
+    
     private override init() {
         super.init()
     }
@@ -29,6 +33,7 @@ class GameController: NSObject {
     
     func fire() {
         let bullet = player.fire()
+        bullets.append(bullet)
     }
     
     func prepare(partName: String) {
@@ -54,11 +59,37 @@ class GameController: NSObject {
     func endGame() {
         timer?.invalidate()
     }
+    
+    func remove(bullet: Bullet) {
+        if let idx = bullets.index(of: bullet) {
+            bullets.remove(at: idx)
+        }
+        bullet.removeFromParentNode()
+    }
 }
 
 extension GameController: SCNPhysicsContactDelegate {
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        print("didBegin")
+        let nodeA = contact.nodeA
+        let nodeB = contact.nodeB
+        guard let maskA = nodeA.physicsBody?.categoryBitMask, let maskB = nodeB.physicsBody?.categoryBitMask else {
+            return
+        }
+        if (maskA | maskB) == (CollisionMask.bullet.rawValue | CollisionMask.obstacles.rawValue) {
+            var obstacle: Obstacle
+            var bullet: Bullet
+            if nodeA.categoryBitMask == CollisionMask.obstacles.rawValue {
+                obstacle = nodeA as! Obstacle
+                bullet = nodeB as! Bullet
+            } else {
+                obstacle = nodeB as! Obstacle
+                bullet = nodeA as! Bullet
+            }
+            remove(bullet: bullet)
+            if obstacle.type == .brick {
+                map.remove(obstacle: obstacle)
+            }
+        }
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {

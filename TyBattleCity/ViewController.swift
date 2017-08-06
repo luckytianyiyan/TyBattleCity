@@ -56,14 +56,13 @@ class ViewController: UIViewController {
         
         // Create a new scene
         let scene = SCNScene()
-        
+        scene.physicsWorld.contactDelegate = GameController.shared
         // Set the scene to the view
         sceneView.scene = scene
         
         sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes]
         
         GameController.shared.prepare(partName: "part-1")
-        GameController.shared.map.transform = SCNMatrix4MakeRotation(Float.pi / 2, 1.0, 0.0, 0.0)
         GameController.shared.map.scale = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognize:)))
@@ -101,8 +100,7 @@ class ViewController: UIViewController {
             return
         }
         let location = recognize.location(in: sceneView)
-        let hitResults = sceneView.hitTest(location, options: [:])
-        guard let result = hitResults.first, let selectedNode = result.node as? PlaneNode else {
+        guard let result = sceneView.hitTest(location, options: [:]).first(where: { $0.node is PlaneNode }), let selectedNode = result.node as? PlaneNode else {
             return
         }
         selectedPlane = selectedNode

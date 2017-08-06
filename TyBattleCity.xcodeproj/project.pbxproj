@@ -13,7 +13,7 @@
 		1911F51D1F3247A0004B0F78 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1911F51C1F3247A0004B0F78 /* GameViewController.swift */; };
 		1911F5211F324938004B0F78 /* tank.scn in Resources */ = {isa = PBXBuildFile; fileRef = 1911F5201F324938004B0F78 /* tank.scn */; };
 		1917198E1F30D98C003FC888 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1917198D1F30D98C003FC888 /* AppDelegate.swift */; };
-		191719901F30D98C003FC888 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 1917198F1F30D98C003FC888 /* art.scnassets */; };
+		191719901F30D98C003FC888 /* Assets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 1917198F1F30D98C003FC888 /* Assets.scnassets */; };
 		191719921F30D98C003FC888 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191719911F30D98C003FC888 /* ViewController.swift */; };
 		191719951F30D98C003FC888 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 191719931F30D98C003FC888 /* Main.storyboard */; };
 		191719971F30D98C003FC888 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 191719961F30D98C003FC888 /* Assets.xcassets */; };
@@ -37,7 +37,7 @@
 		1911F5201F324938004B0F78 /* tank.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = tank.scn; sourceTree = "<group>"; };
 		1917198A1F30D98C003FC888 /* TyBattleCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyBattleCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1917198D1F30D98C003FC888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1917198F1F30D98C003FC888 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		1917198F1F30D98C003FC888 /* Assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Assets.scnassets; sourceTree = "<group>"; };
 		191719911F30D98C003FC888 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		191719941F30D98C003FC888 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		191719961F30D98C003FC888 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			children = (
 				19DB24181F3381C1008A9E01 /* DevWindow.swift */,
 				1917198D1F30D98C003FC888 /* AppDelegate.swift */,
-				1917198F1F30D98C003FC888 /* art.scnassets */,
+				1917198F1F30D98C003FC888 /* Assets.scnassets */,
 				191719911F30D98C003FC888 /* ViewController.swift */,
 				1962D8271F322FAD00D892AD /* PlaneNode.swift */,
 				191719931F30D98C003FC888 /* Main.storyboard */,
@@ -187,7 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1911F51B1F324628004B0F78 /* game.scn in Resources */,
-				191719901F30D98C003FC888 /* art.scnassets in Resources */,
+				191719901F30D98C003FC888 /* Assets.scnassets in Resources */,
 				199519171F34E132005A2E79 /* axis.scn in Resources */,
 				1911F5211F324938004B0F78 /* tank.scn in Resources */,
 				199519191F34E618005A2E79 /* obstacle.scnassets in Resources */,

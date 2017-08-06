@@ -84,6 +84,13 @@ class GameMap: SCNNode {
         player.position = SCNVector3(x: Float(startLocation.x), y: 0, z: Float(startLocation.y))
     }
     
+    func remove(obstacle: Obstacle) {
+        if let idx = obstacles.index(of: obstacle) {
+            obstacles.remove(at: idx)
+        }
+        obstacle.removeFromParentNode()
+    }
+    
     func isPassable(_ next: SCNVector3) -> Bool {
         guard next.x >= 0, next.x <= Float(mapSize.x - 1), next.z >= 0, next.z <= Float(mapSize.y - 1) else {
             return false
