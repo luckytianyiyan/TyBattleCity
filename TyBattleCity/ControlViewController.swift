@@ -25,4 +25,8 @@ class ControlViewController: UIViewController {
     @IBAction func onLeftButtonClick(_ sender: Any) {
         GameController.shared.trun(to: .left)
     }
+    
+    @IBAction func onFireButtonClick(_ sender: Any) {
+        GameController.shared.fire()
+    }
 }

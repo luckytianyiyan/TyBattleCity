@@ -38,7 +38,12 @@ class ViewController: UIViewController {
     var planes: [ARPlaneAnchor: PlaneNode] = [:]
     var selectedPlane: PlaneNode?
     var controlViewController: ControlViewController?
-    var axis: Axis? = nil
+    lazy var arTrackingConfig: ARWorldTrackingSessionConfiguration = {
+        let config = ARWorldTrackingSessionConfiguration()
+        config.isLightEstimationEnabled = true
+        config.planeDetection = .horizontal
+        return config
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +60,7 @@ class ViewController: UIViewController {
         // Set the scene to the view
         sceneView.scene = scene
         
-        axis = Axis()
-        axis?.scale = SCNVector3(x: gameSceneScale, y: gameSceneScale, z: gameSceneScale)
+        sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes]
         
         GameController.shared.prepare(partName: "part-1")
         GameController.shared.map.transform = SCNMatrix4MakeRotation(Float.pi / 2, 1.0, 0.0, 0.0)
@@ -68,17 +72,15 @@ class ViewController: UIViewController {
         controlViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "control") as? ControlViewController
         view.addSubview(controlViewController!.view)
         addChildViewController(controlViewController!)
+        
+        UIApplication.shared.isIdleTimerDisabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create a session configuration
-        let configuration = ARWorldTrackingSessionConfiguration()
-        configuration.planeDetection = .horizontal
-        
         // Run the view's session
-        sceneView.session.run(configuration)
+        sceneView.session.run(arTrackingConfig)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -107,7 +109,6 @@ class ViewController: UIViewController {
         print("selected: \(selectedNode)")
         let node = GameController.shared.map
         selectedNode.addChildNode(node)
-        selectedNode.addChildNode(axis!)
         updateMapPosition(anchor: selectedNode.anchor)
         state = .startGame
         GameController.shared.startGame()
@@ -116,7 +117,6 @@ class ViewController: UIViewController {
     func updateMapPosition(anchor: ARPlaneAnchor) {
         let mapSize = GameController.shared.map.mapSize
         GameController.shared.map.position = SCNVector3Make(anchor.center.x - Float(mapSize.x) * gameSceneScale * 0.5, anchor.center.y + Float(mapSize.y) * gameSceneScale * 0.5, anchor.center.z)
-        axis?.position = SCNVector3(anchor.center)
     }
 }
 

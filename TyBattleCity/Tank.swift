@@ -28,8 +28,30 @@ enum Direction: Int {
     }
 }
 
+class Bullet: SCNNode {
+    var body: SCNNode
+    override init() {
+        let scene = SCNScene(named: "tank.scn")!
+        body = scene.rootNode.childNode(withName: "bullet", recursively: true)!
+        super.init()
+        body.position = SCNVector3()
+        addChildNode(body)
+        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        physicsBody.mass = 0
+        physicsBody.categoryBitMask = CollisionMask.bullet.rawValue
+        physicsBody.collisionBitMask = CollisionMask.bullet.rawValue | CollisionMask.obstacles.rawValue | CollisionMask.tank.rawValue
+        physicsBody.contactTestBitMask = CollisionMask.bullet.rawValue | CollisionMask.obstacles.rawValue | CollisionMask.tank.rawValue
+        self.physicsBody = physicsBody
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class Tank: SCNNode {
     var body: SCNNode
+    var launchingPoint: SCNNode
     var direction: Direction = .down {
         didSet {
             switch direction {
@@ -54,6 +76,7 @@ class Tank: SCNNode {
     override init() {
         let scene = SCNScene(named: "tank.scn")!
         body = scene.rootNode.childNode(withName: "tank", recursively: true)!
+        launchingPoint = scene.rootNode.childNode(withName: "launching_point", recursively: true)!
         super.init()
         addChildNode(body)
     }
@@ -77,5 +100,19 @@ class Tank: SCNNode {
             print("moved to \(self.position)")
         }
     }
+    
+    func fire() -> Bullet {
+        let bullet = Bullet()
+        let offset = direction.offset
+        bullet.position = position + launchingPoint.position
+        parent?.addChildNode(bullet)
+        bullet.runAction(SCNAction.moveBy(x: offset.x * 100, y: 0, z: offset.y * 100, duration: 10))
+        return bullet
+    }
 }
 
+extension SCNVector3 {
+    static func +(lhs: SCNVector3, rhs: SCNVector3) -> SCNVector3 {
+        return SCNVector3(x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
+    }
+}

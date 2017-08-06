@@ -18,6 +18,7 @@ class DevWindow: UIWindow {
                 UIKeyCommand(input: "s", modifierFlags: [], action: downAction),
                 UIKeyCommand(input: "a", modifierFlags: [], action: leftAction),
                 UIKeyCommand(input: "d", modifierFlags: [], action: rightAction),
+                UIKeyCommand(input: "j", modifierFlags: [], action: #selector(fire)),
                 UIKeyCommand(input: UIKeyInputUpArrow, modifierFlags: [], action: upAction),
                 UIKeyCommand(input: UIKeyInputDownArrow, modifierFlags: [], action: downAction),
                 UIKeyCommand(input: UIKeyInputLeftArrow, modifierFlags: [], action: leftAction),
@@ -38,5 +39,9 @@ class DevWindow: UIWindow {
     
     @objc func right() {
         GameController.shared.trun(to: .right)
+    }
+    
+    @objc func fire() {
+        GameController.shared.fire()
     }
 }

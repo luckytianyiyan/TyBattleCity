@@ -36,6 +36,11 @@ class Obstacle: SCNNode {
         self.body = body
         super.init()
         addChildNode(body)
+        let physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0), options: nil))
+        physicsBody.categoryBitMask = CollisionMask.obstacles.rawValue
+        physicsBody.collisionBitMask = CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue
+        physicsBody.contactTestBitMask = CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue
+        self.physicsBody = physicsBody
     }
     
     required init?(coder aDecoder: NSCoder) {
