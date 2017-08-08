@@ -28,6 +28,7 @@
 		19DB24191F3381C1008A9E01 /* DevWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB24181F3381C1008A9E01 /* DevWindow.swift */; };
 		19DB241C1F3393AB008A9E01 /* GameMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB241B1F3393AB008A9E01 /* GameMap.swift */; };
 		19DB241F1F339425008A9E01 /* Yams.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19DB241E1F3393C8008A9E01 /* Yams.framework */; };
+		19F5646E1F39E77C00B804D1 /* MBProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F5646D1F39E76F00B804D1 /* MBProgressHUD.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,8 @@
 		191719961F30D98C003FC888 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		191719991F30D98C003FC888 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1917199B1F30D98C003FC888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		191CA58B1F39C120000C92E7 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
+		191CA58D1F39C1E6000C92E7 /* TyBattleCityBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TyBattleCityBridging.h; sourceTree = "<group>"; };
 		1962D8271F322FAD00D892AD /* PlaneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneNode.swift; sourceTree = "<group>"; };
 		197CAB0E1F3793280045FA42 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		199519141F34E125005A2E79 /* Axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
@@ -53,6 +56,7 @@
 		19DB24181F3381C1008A9E01 /* DevWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevWindow.swift; sourceTree = "<group>"; };
 		19DB241B1F3393AB008A9E01 /* GameMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMap.swift; sourceTree = "<group>"; };
 		19DB241E1F3393C8008A9E01 /* Yams.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yams.framework; path = Carthage/Build/iOS/Yams.framework; sourceTree = "<group>"; };
+		19F5646D1F39E76F00B804D1 /* MBProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MBProgressHUD.framework; path = Carthage/Build/iOS/MBProgressHUD.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19F5646E1F39E77C00B804D1 /* MBProgressHUD.framework in Frameworks */,
 				19DB241F1F339425008A9E01 /* Yams.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +120,7 @@
 				199519141F34E125005A2E79 /* Axis.swift */,
 				199519161F34E132005A2E79 /* axis.scn */,
 				197CAB0E1F3793280045FA42 /* Utils.swift */,
+				191CA58D1F39C1E6000C92E7 /* TyBattleCityBridging.h */,
 			);
 			path = TyBattleCity;
 			sourceTree = "<group>";
@@ -122,6 +128,8 @@
 		19DB241D1F3393C7008A9E01 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				19F5646D1F39E76F00B804D1 /* MBProgressHUD.framework */,
+				191CA58B1F39C120000C92E7 /* SVProgressHUD.framework */,
 				19DB241E1F3393C8008A9E01 /* Yams.framework */,
 			);
 			name = Frameworks;
@@ -207,6 +215,7 @@
 			);
 			inputPaths = (
 				"$(PROJECT_DIR)/Carthage/Build/iOS/Yams.framework",
+				"$(PROJECT_DIR)/Carthage/Build/iOS/MBProgressHUD.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -378,6 +387,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tianyiyan.TyBattleCity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = TyBattleCity/TyBattleCityBridging.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -396,6 +406,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tianyiyan.TyBattleCity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = TyBattleCity/TyBattleCityBridging.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
