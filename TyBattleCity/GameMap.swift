@@ -24,6 +24,7 @@ class GameMap: SCNNode {
     var mapSize: int2 = int2()
     var startLocation: int2 = int2()
     var obstacles: [Obstacle] = []
+    private(set) var origin: float2 = float2(0.5, 0.5)
     private let world: SCNNode
     private let floor: SCNNode
     
@@ -35,8 +36,10 @@ class GameMap: SCNNode {
         }
         self.world = world
         self.floor = floor
+        let floorGeometry = floor.geometry as! SCNBox
+        origin = float2(x: 0.5 - floorGeometry.width / 2, y: 0.5 - floorGeometry.length / 2)
         super.init()
-        world.position = SCNVector3Make(0.5, -0.5, 0)
+        world.position = SCNVector3()
         addChildNode(world)
     }
     
@@ -59,6 +62,7 @@ class GameMap: SCNNode {
         floorGeometry.width = CGFloat(mapSize.x)
         floorGeometry.length = CGFloat(mapSize.y)
         floorGeometry.firstMaterial?.diffuse.contentsTransform = SCNMatrix4MakeScale(Float(mapSize.x), Float(mapSize.x), 0)
+        origin = float2(x: 0.5 - floorGeometry.width / 2, y: 0.5 - floorGeometry.length / 2)
         
         for (idx, data) in datas.characters.enumerated() {
             guard let typeRaw = Int(String(data)), typeRaw != 0, let type = ObstacleType(rawValue: typeRaw) else {
@@ -67,7 +71,7 @@ class GameMap: SCNNode {
             let obstacle = Obstacle(type: type)
             let x = idx % Int(mapSize.x)
             let y = Int(idx / Int(mapSize.y))
-            obstacle.position = SCNVector3(x: Float(x), y: 0, z: Float(y))
+            obstacle.position = SCNVector3(x: origin.x + Float(x), y: 0, z: origin.y + Float(y))
             obstacles.append(obstacle)
             world.addChildNode(obstacle)
         }
@@ -77,13 +81,12 @@ class GameMap: SCNNode {
         cameraNode.position = SCNVector3(x: 0, y: 10, z: 15)
         cameraNode.look(at: SCNVector3())
         world.addChildNode(cameraNode)
-        floor.pivot = SCNMatrix4MakeTranslation((Float(-mapSize.x) + 1) / 2, 0, (Float(-mapSize.y) + 1) / 2)
     }
     
     func placePlayer(_ player: Tank) {
         player.removeFromParentNode()
         world.addChildNode(player)
-        player.position = SCNVector3(x: Float(startLocation.x), y: 0, z: Float(startLocation.y))
+        player.position = SCNVector3(x: origin.x + Float(startLocation.x), y: 0, z: origin.y + Float(startLocation.y))
     }
     
     func remove(obstacle: Obstacle) {
@@ -94,7 +97,7 @@ class GameMap: SCNNode {
     }
     
     func isPassable(_ next: SCNVector3) -> Bool {
-        guard next.x >= 0, next.x <= Float(mapSize.x - 1), next.z >= 0, next.z <= Float(mapSize.y - 1) else {
+        guard next.x >= origin.x, next.x <= origin.x + Float(mapSize.x - 1), next.z >= origin.y, next.z <= origin.y + Float(mapSize.y - 1) else {
             return false
         }
         return !obstacles.contains(where: {
@@ -106,6 +109,12 @@ class GameMap: SCNNode {
             }
             return false
         })
+    }
+}
+
+extension float2 {
+    public init(x: CGFloat, y: CGFloat) {
+        self.init(x: Float(x), y: Float(y))
     }
 }
 
