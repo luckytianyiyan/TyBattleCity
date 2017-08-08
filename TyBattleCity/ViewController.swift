@@ -114,7 +114,8 @@ class ViewController: UIViewController {
     
     func updateMapPosition(anchor: ARPlaneAnchor) {
         let mapSize = GameController.shared.map.mapSize
-        GameController.shared.map.position = SCNVector3Make(anchor.center.x - Float(mapSize.x) * gameSceneScale * 0.5, anchor.center.y + Float(mapSize.y) * gameSceneScale * 0.5, anchor.center.z)
+        GameController.shared.map.position = SCNVector3(anchor.center)
+//        GameController.shared.map.position = SCNVector3Make(anchor.center.x, anchor.center.y, anchor.center.z)
     }
 }
 
@@ -132,13 +133,14 @@ extension ViewController: ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        guard state == .selectPlane, let anchor = anchor as? ARPlaneAnchor, let planeNote = planes[anchor] else {
+        guard let anchor = anchor as? ARPlaneAnchor, let planeNote = planes[anchor] else {
             return
         }
+        print("renderer didUpdate")
         planeNote.update(anchor: anchor)
-//        if selectedPlane?.anchor == anchor {
-//            updateMapPosition(anchor: anchor)
-//        }
+        if selectedPlane?.anchor == anchor {
+            GameController.shared.resetPhysicsBodyTransform()
+        }
     }
     
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {

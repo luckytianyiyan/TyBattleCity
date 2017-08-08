@@ -14,7 +14,7 @@ class PlaneNode: SCNNode {
     
     init(anchor: ARPlaneAnchor) {
         self.anchor = anchor
-        planeGeometry = SCNBox(width: CGFloat(anchor.extent.x), height: 0.01, length: CGFloat(anchor.extent.z), chamferRadius: 0)
+        planeGeometry = SCNBox(width: CGFloat(anchor.extent.x), height: 0, length: CGFloat(anchor.extent.z), chamferRadius: 0)
         super.init()
         
         let transparentMaterial = SCNMaterial()
@@ -22,7 +22,8 @@ class PlaneNode: SCNNode {
         planeGeometry.materials = [transparentMaterial, transparentMaterial, transparentMaterial, transparentMaterial, SCNMaterial(named: "tron-albedo"), transparentMaterial]
         
         geometry = planeGeometry
-        position = SCNVector3(x: 0, y: -0.005, z: 0)
+        position = SCNVector3(x: 0, y: 0, z: 0)
+        physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: nil))
         updateTextureScale()
     }
     
@@ -35,6 +36,8 @@ class PlaneNode: SCNNode {
         planeGeometry.width = CGFloat(anchor.extent.x)
         
         position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+        
+        physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: planeGeometry, options: nil))
         updateTextureScale()
     }
     

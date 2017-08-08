@@ -37,11 +37,11 @@ class Obstacle: SCNNode {
         body.position = SCNVector3()
         addChildNode(body)
         updatePhysicsBody(scale: 1)
+        pivot = SCNMatrix4MakeTranslation(0, -0.5, 0)
     }
     
     func updatePhysicsBody(scale: CGFloat) {
-        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1 * scale, height: 1 * scale, length: 1 * scale, chamferRadius: 0), options: nil))
-        physicsBody.mass = 0
+        let physicsBody = SCNPhysicsBody(type: .`static`, shape: SCNPhysicsShape(geometry: SCNBox(width: 1 * scale, height: 1 * scale, length: 1 * scale, chamferRadius: 0), options: nil))
         physicsBody.categoryBitMask = CollisionMask.obstacles.rawValue
         physicsBody.collisionBitMask = CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue
         physicsBody.contactTestBitMask = CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue

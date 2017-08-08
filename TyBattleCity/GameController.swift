@@ -46,6 +46,12 @@ class GameController: NSObject {
         bullets.append(bullet)
     }
     
+    func resetPhysicsBodyTransform() {
+        for obstacle in map.obstacles {
+            obstacle.physicsBody?.resetTransform()
+        }
+    }
+    
     func prepare(partName: String) {
         guard let filepath = Bundle.main.path(forResource: partName, ofType: "yml") else {
             fatalError("can not load map")
