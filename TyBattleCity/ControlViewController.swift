@@ -9,6 +9,16 @@
 import UIKit
 
 class ControlViewController: UIViewController {
+    @IBOutlet weak var leftButton: UIButton!
+    @IBOutlet weak var rightButton: UIButton!
+    @IBOutlet weak var downButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        leftButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
+        rightButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+        downButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+    }
     
     @IBAction func onUpButtonClick(_ sender: Any) {
         GameController.shared.trun(to: .up)

@@ -48,56 +48,171 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="335-L8-yLp" userLabel="up">
-                                <rect key="frame" x="64" y="475" width="64" height="64"/>
-                                <state key="normal" backgroundImage="control_up"/>
-                                <connections>
-                                    <action selector="onUpButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DT3-P0-aXJ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbP-Uo-cLt" userLabel="left">
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mlb-qv-vDF">
                                 <rect key="frame" x="0.0" y="539" width="64" height="64"/>
-                                <state key="normal" backgroundImage="control_left"/>
-                                <connections>
-                                    <action selector="onLeftButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="JmG-lR-q5g"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAB-vO-oFw" userLabel="right">
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bWE-Nn-p6k">
+                                    <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbP-Uo-cLt" userLabel="left">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <state key="normal" backgroundImage="control_up"/>
+                                            <connections>
+                                                <action selector="onLeftButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="JmG-lR-q5g"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="dbP-Uo-cLt" secondAttribute="trailing" id="5W6-Xn-8qe"/>
+                                        <constraint firstItem="dbP-Uo-cLt" firstAttribute="top" secondItem="bWE-Nn-p6k" secondAttribute="top" id="f4D-oZ-fWc"/>
+                                        <constraint firstItem="dbP-Uo-cLt" firstAttribute="leading" secondItem="bWE-Nn-p6k" secondAttribute="leading" id="uq9-CF-nNg"/>
+                                        <constraint firstAttribute="bottom" secondItem="dbP-Uo-cLt" secondAttribute="bottom" id="vVB-yu-A7E"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="32"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </visualEffectView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gEP-vb-bTq">
+                                <rect key="frame" x="64" y="475" width="64" height="64"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Lv0-al-X0F">
+                                    <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="335-L8-yLp" userLabel="up">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <state key="normal" backgroundImage="control_up"/>
+                                            <connections>
+                                                <action selector="onUpButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DT3-P0-aXJ"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="335-L8-yLp" secondAttribute="bottom" id="6mu-Fg-Qbo"/>
+                                        <constraint firstItem="335-L8-yLp" firstAttribute="leading" secondItem="Lv0-al-X0F" secondAttribute="leading" id="6qb-Ou-pu2"/>
+                                        <constraint firstItem="335-L8-yLp" firstAttribute="top" secondItem="Lv0-al-X0F" secondAttribute="top" id="m6r-xY-cwM"/>
+                                        <constraint firstAttribute="trailing" secondItem="335-L8-yLp" secondAttribute="trailing" id="nuD-2l-im0"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="32"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </visualEffectView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QXx-WP-aUz">
                                 <rect key="frame" x="128" y="539" width="64" height="64"/>
-                                <state key="normal" backgroundImage="control_right"/>
-                                <connections>
-                                    <action selector="onRightButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="ugR-hF-Vhm"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6P-23-4tC" userLabel="down">
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="wqE-E7-6Jx">
+                                    <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAB-vO-oFw" userLabel="right">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <state key="normal" backgroundImage="control_up"/>
+                                            <connections>
+                                                <action selector="onRightButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="ugR-hF-Vhm"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="eAB-vO-oFw" secondAttribute="trailing" id="NoC-sR-USL"/>
+                                        <constraint firstItem="eAB-vO-oFw" firstAttribute="top" secondItem="wqE-E7-6Jx" secondAttribute="top" id="OgP-NP-LJw"/>
+                                        <constraint firstItem="eAB-vO-oFw" firstAttribute="leading" secondItem="wqE-E7-6Jx" secondAttribute="leading" id="RzZ-cm-8B8"/>
+                                        <constraint firstAttribute="bottom" secondItem="eAB-vO-oFw" secondAttribute="bottom" id="jhq-BD-IrN"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="32"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </visualEffectView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p0W-i5-Zff">
                                 <rect key="frame" x="64" y="603" width="64" height="64"/>
-                                <state key="normal" backgroundImage="control_down"/>
-                                <connections>
-                                    <action selector="onDownButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="L9i-4l-yMX"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IsC-iE-sOx">
-                                <rect key="frame" x="291" y="539.5" width="64" height="63"/>
-                                <state key="normal" backgroundImage="fire"/>
-                                <connections>
-                                    <action selector="onFireButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DOc-f8-OHU"/>
-                                </connections>
-                            </button>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="EWD-57-G1X">
+                                    <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6P-23-4tC" userLabel="down">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <state key="normal" backgroundImage="control_up"/>
+                                            <connections>
+                                                <action selector="onDownButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="L9i-4l-yMX"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="I6P-23-4tC" secondAttribute="trailing" id="9Ai-lZ-9V5"/>
+                                        <constraint firstAttribute="bottom" secondItem="I6P-23-4tC" secondAttribute="bottom" id="Exd-ye-V5x"/>
+                                        <constraint firstItem="I6P-23-4tC" firstAttribute="leading" secondItem="EWD-57-G1X" secondAttribute="leading" id="GFO-Jb-8e4"/>
+                                        <constraint firstItem="I6P-23-4tC" firstAttribute="top" secondItem="EWD-57-G1X" secondAttribute="top" id="Nfm-vS-BUl"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="32"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </visualEffectView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7mN-BB-AZH">
+                                <rect key="frame" x="291" y="540" width="64" height="63"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9aV-q5-2iB">
+                                    <rect key="frame" x="0.0" y="0.0" width="64" height="63"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IsC-iE-sOx">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="63"/>
+                                            <state key="normal" backgroundImage="fire"/>
+                                            <connections>
+                                                <action selector="onFireButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DOc-f8-OHU"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="IsC-iE-sOx" secondAttribute="bottom" id="0T5-kR-vdN"/>
+                                        <constraint firstAttribute="trailing" secondItem="IsC-iE-sOx" secondAttribute="trailing" id="1Tt-sw-c4V"/>
+                                        <constraint firstItem="IsC-iE-sOx" firstAttribute="top" secondItem="9aV-q5-2iB" secondAttribute="top" id="KEh-LL-Nkh"/>
+                                        <constraint firstItem="IsC-iE-sOx" firstAttribute="leading" secondItem="9aV-q5-2iB" secondAttribute="leading" id="cpW-ix-E1C"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dbP-Uo-cLt" firstAttribute="leading" secondItem="eas-bh-zII" secondAttribute="leading" id="07W-jQ-j4L"/>
-                            <constraint firstItem="eAB-vO-oFw" firstAttribute="leading" secondItem="I6P-23-4tC" secondAttribute="trailing" id="3eV-ea-gt5"/>
-                            <constraint firstItem="I6P-23-4tC" firstAttribute="top" secondItem="eAB-vO-oFw" secondAttribute="bottom" id="6N8-BB-i26"/>
-                            <constraint firstItem="335-L8-yLp" firstAttribute="leading" secondItem="dbP-Uo-cLt" secondAttribute="trailing" id="ESo-fp-Vt4"/>
-                            <constraint firstAttribute="trailing" secondItem="IsC-iE-sOx" secondAttribute="trailing" constant="20" id="GIr-Je-hQq"/>
-                            <constraint firstItem="I6P-23-4tC" firstAttribute="top" secondItem="dbP-Uo-cLt" secondAttribute="bottom" id="I8n-Ha-XnB"/>
-                            <constraint firstItem="I6P-23-4tC" firstAttribute="leading" secondItem="dbP-Uo-cLt" secondAttribute="trailing" id="IHU-Qx-oBS"/>
-                            <constraint firstItem="IsC-iE-sOx" firstAttribute="centerY" secondItem="eAB-vO-oFw" secondAttribute="centerY" id="LVf-Ba-x0i"/>
-                            <constraint firstItem="d4a-2q-A4m" firstAttribute="top" secondItem="I6P-23-4tC" secondAttribute="bottom" id="bAO-t2-C9d"/>
-                            <constraint firstItem="dbP-Uo-cLt" firstAttribute="top" secondItem="335-L8-yLp" secondAttribute="bottom" id="lGU-28-Rjh"/>
+                            <constraint firstItem="Mlb-qv-vDF" firstAttribute="top" secondItem="QXx-WP-aUz" secondAttribute="top" id="D3e-kh-dGk"/>
+                            <constraint firstItem="p0W-i5-Zff" firstAttribute="leading" secondItem="dbP-Uo-cLt" secondAttribute="trailing" id="EOA-xy-xOM"/>
+                            <constraint firstItem="gEP-vb-bTq" firstAttribute="leading" secondItem="I6P-23-4tC" secondAttribute="leading" id="FXf-6n-Qh0"/>
+                            <constraint firstItem="dbP-Uo-cLt" firstAttribute="top" secondItem="gEP-vb-bTq" secondAttribute="bottom" id="acB-ai-N2b"/>
+                            <constraint firstItem="I6P-23-4tC" firstAttribute="top" secondItem="QXx-WP-aUz" secondAttribute="bottom" id="i2r-v7-I10"/>
+                            <constraint firstItem="Mlb-qv-vDF" firstAttribute="leading" secondItem="eas-bh-zII" secondAttribute="leading" id="mpm-QM-tvT"/>
+                            <constraint firstItem="Mlb-qv-vDF" firstAttribute="bottom" secondItem="7mN-BB-AZH" secondAttribute="bottom" id="nk3-Ru-qOK"/>
+                            <constraint firstItem="QXx-WP-aUz" firstAttribute="leading" secondItem="I6P-23-4tC" secondAttribute="trailing" id="qzz-tY-6Fz"/>
+                            <constraint firstItem="d4a-2q-A4m" firstAttribute="top" secondItem="p0W-i5-Zff" secondAttribute="bottom" id="sZo-0Z-Wk1"/>
+                            <constraint firstAttribute="trailing" secondItem="7mN-BB-AZH" secondAttribute="trailing" constant="20" id="yea-L6-JYi"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="downButton" destination="I6P-23-4tC" id="2Ff-43-Z1M"/>
+                        <outlet property="leftButton" destination="dbP-Uo-cLt" id="3Wa-T8-0Pg"/>
+                        <outlet property="rightButton" destination="eAB-vO-oFw" id="FWB-qd-EMC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FbF-2r-Iag" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -105,9 +220,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="control_down" width="64" height="64"/>
-        <image name="control_left" width="64" height="64"/>
-        <image name="control_right" width="64" height="64"/>
         <image name="control_up" width="64" height="64"/>
         <image name="fire" width="64" height="63"/>
     </resources>
