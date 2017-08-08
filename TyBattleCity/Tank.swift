@@ -103,11 +103,14 @@ class Tank: SCNNode {
         }
     }
     
-    func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet {
+    func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {
+        guard let parent = parent else {
+            return nil
+        }
         let bullet = Bullet(scale: GameController.shared.mapScale)
         let offset = direction.offset
-        bullet.position = position + launchingPoint.position
-        parent?.addChildNode(bullet)
+        bullet.position = convertPosition(launchingPoint.position, to: parent)
+        parent.addChildNode(bullet)
         let distanceX = offset.x * firingRange
         let distanceY = offset.y * firingRange
         let distance = sqrt(distanceX * distanceX + distanceY * distanceY)

@@ -40,8 +40,11 @@ class GameController: NSObject {
     }
     
     func fire() {
-        let bullet = player.fire { [weak self] (bullet) in
+        let completion: (Bullet) -> Void = { [weak self] (bullet) in
             self?.remove(bullet: bullet)
+        }
+        guard let bullet = player.fire(completion: completion) else {
+            return
         }
         bullets.append(bullet)
     }
