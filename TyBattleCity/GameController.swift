@@ -20,7 +20,6 @@ class GameController: NSObject {
     static let shared = GameController()
     var player: Tank = Tank()
     var map: GameMap = GameMap()
-    private var timer: Timer?
     private var bullets: [Bullet] = []
     var mapScale: Float = 1 {
         didSet {
@@ -37,6 +36,13 @@ class GameController: NSObject {
     
     func trun(to direction: Direction) {
         player.trun(to: direction)
+    }
+    
+    func moving(direction: Direction) {
+    }
+    
+    func stopMoving() {
+        
     }
     
     func fire() {
@@ -65,19 +71,12 @@ class GameController: NSObject {
     }
     
     func startGame() {
-        timer?.invalidate()
         
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (_) in
-            let next = self.player.nextLocation
-            guard self.map.isPassable(SCNVector3(x: Float(next.x), y: 0, z: Float(next.y))) else {
-                return
-            }
-            self.player.move()
-        })
+        
     }
     
     func endGame() {
-        timer?.invalidate()
+        
     }
     
     func remove(bullet: Bullet) {

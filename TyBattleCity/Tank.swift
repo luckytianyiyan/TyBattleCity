@@ -88,19 +88,39 @@ class Tank: SCNNode {
     }
     
     func trun(to direction: Direction) {
-        guard abs(direction.rawValue - self.direction.rawValue) != 2 else {
+        guard abs(direction.rawValue - self.direction.rawValue) != 2, self.direction != direction else {
             return
         }
         self.direction = direction
         print("trun to \(direction)")
     }
     
-    func move() {
+    func move(direction: Direction? = nil) {
+        if let direction = direction {
+            trun(to: direction)
+        }
         let next = nextLocation
         dstLocation = next
         runAction(SCNAction.move(to: SCNVector3(x: Float(next.x), y: 0, z: Float(next.y)), duration: 0.2), forKey: nil) {
             print("moved to \(self.position)")
         }
+    }
+    
+    func moving(direction: Direction? = nil) {
+        removeAllActions()
+        if let direction = direction {
+            trun(to: direction)
+        }
+        let next = nextLocation
+        dstLocation = next
+        runAction(SCNAction.move(to: SCNVector3(x: Float(next.x), y: 0, z: Float(next.y)), duration: 0.2), forKey: nil) {
+            print("moved to \(self.position)")
+            self.moving()
+        }
+    }
+    
+    func stopMoving() {
+        
     }
     
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {
@@ -120,3 +140,4 @@ class Tank: SCNNode {
         return bullet
     }
 }
+

@@ -19,6 +19,7 @@
 		199519191F34E618005A2E79 /* obstacle.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 199519181F34E5DC005A2E79 /* obstacle.scnassets */; };
 		19A7F72A1F3B0F9C0088CB1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19A7F7291F3B0F9C0088CB1E /* LaunchScreen.storyboard */; };
 		19A7F72F1F3B0FC80088CB1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19A7F72D1F3B0FBF0088CB1E /* Main.storyboard */; };
+		19A7F7551F3B85190088CB1E /* BaseDeveloperWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A7F7541F3B85190088CB1E /* BaseDeveloperWindow.m */; };
 		19CFE3AE1F34BE4B00DDCD5D /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CFE3AD1F34BE4B00DDCD5D /* Obstacle.swift */; };
 		19DB24131F336258008A9E01 /* Tank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB24121F336258008A9E01 /* Tank.swift */; };
 		19DB24151F338045008A9E01 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DB24141F338045008A9E01 /* GameController.swift */; };
@@ -45,6 +46,8 @@
 		199519181F34E5DC005A2E79 /* obstacle.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = obstacle.scnassets; sourceTree = "<group>"; };
 		19A7F7291F3B0F9C0088CB1E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		19A7F72E1F3B0FBF0088CB1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		19A7F7531F3B85190088CB1E /* BaseDeveloperWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseDeveloperWindow.h; sourceTree = "<group>"; };
+		19A7F7541F3B85190088CB1E /* BaseDeveloperWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseDeveloperWindow.m; sourceTree = "<group>"; };
 		19CFE3AD1F34BE4B00DDCD5D /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		19DB24121F336258008A9E01 /* Tank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tank.swift; sourceTree = "<group>"; };
 		19DB24141F338045008A9E01 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				197CAB0E1F3793280045FA42 /* Utils.swift */,
 				19A7F72D1F3B0FBF0088CB1E /* Main.storyboard */,
 				19A7F7291F3B0F9C0088CB1E /* LaunchScreen.storyboard */,
+				19A7F7531F3B85190088CB1E /* BaseDeveloperWindow.h */,
+				19A7F7541F3B85190088CB1E /* BaseDeveloperWindow.m */,
 				1917199B1F30D98C003FC888 /* Info.plist */,
 				191CA58D1F39C1E6000C92E7 /* TyBattleCityBridging.h */,
 				1917198F1F30D98C003FC888 /* Assets.scnassets */,
@@ -233,6 +238,7 @@
 				190CCD831F33BAE6007416BC /* ControlViewController.swift in Sources */,
 				19DB24151F338045008A9E01 /* GameController.swift in Sources */,
 				197CAB0F1F3793280045FA42 /* Utils.swift in Sources */,
+				19A7F7551F3B85190088CB1E /* BaseDeveloperWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,7 +367,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = E67MQJRFZ7;
+				DEVELOPMENT_TEAM = 9KYD7S7AZY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -381,7 +387,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = E67MQJRFZ7;
+				DEVELOPMENT_TEAM = 9KYD7S7AZY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
