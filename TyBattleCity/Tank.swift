@@ -31,7 +31,7 @@ enum Direction: Int {
 class Bullet: SCNNode {
     var body: SCNNode
     init(scale: Float = 1) {
-        let scene = SCNScene(named: "tank.scn")!
+        let scene = SCNScene(named: "Assets.scnassets/tank.scn")!
         body = scene.rootNode.childNode(withName: "bullet", recursively: true)!
         super.init()
         body.position = SCNVector3()
@@ -76,7 +76,7 @@ class Tank: SCNNode {
     }
     
     override init() {
-        let scene = SCNScene(named: "tank.scn")!
+        let scene = SCNScene(named: "Assets.scnassets/tank.scn")!
         body = scene.rootNode.childNode(withName: "tank", recursively: true)!
         launchingPoint = scene.rootNode.childNode(withName: "launching_point", recursively: true)!
         super.init()
