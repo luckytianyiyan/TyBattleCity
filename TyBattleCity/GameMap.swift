@@ -112,9 +112,3 @@ class GameMap: SCNNode {
     }
 }
 
-extension float2 {
-    public init(x: CGFloat, y: CGFloat) {
-        self.init(x: Float(x), y: Float(y))
-    }
-}
-

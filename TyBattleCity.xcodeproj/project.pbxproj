@@ -31,6 +31,7 @@
 /* Begin PBXFileReference section */
 		190CCD7E1F33983C007416BC /* part-1.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = "part-1.yml"; sourceTree = "<group>"; };
 		190CCD821F33BAE6007416BC /* ControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlViewController.swift; sourceTree = "<group>"; };
+		1911F51C1F3247A0004B0F78 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		1917198A1F30D98C003FC888 /* TyBattleCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyBattleCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1917198D1F30D98C003FC888 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1917198F1F30D98C003FC888 /* Assets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Assets.scnassets; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 				1917198D1F30D98C003FC888 /* AppDelegate.swift */,
 				191719911F30D98C003FC888 /* ViewController.swift */,
 				1962D8271F322FAD00D892AD /* PlaneNode.swift */,
+				1911F51C1F3247A0004B0F78 /* GameViewController.swift */,
 				19DB24141F338045008A9E01 /* GameController.swift */,
 				19DB24121F336258008A9E01 /* Tank.swift */,
 				19DB241B1F3393AB008A9E01 /* GameMap.swift */,
@@ -220,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1911F51D1F3247A0004B0F78 /* GameViewController.swift in Sources */,
 				19CFE3AE1F34BE4B00DDCD5D /* Obstacle.swift in Sources */,
 				19DB241C1F3393AB008A9E01 /* GameMap.swift in Sources */,
 				19DB24131F336258008A9E01 /* Tank.swift in Sources */,

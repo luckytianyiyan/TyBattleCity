@@ -120,9 +120,3 @@ class Tank: SCNNode {
         return bullet
     }
 }
-
-extension SCNVector3 {
-    static func +(lhs: SCNVector3, rhs: SCNVector3) -> SCNVector3 {
-        return SCNVector3(x: lhs.x + rhs.x, y: lhs.y + rhs.y, z: lhs.z + rhs.z)
-    }
-}

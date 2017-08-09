@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     var controlViewController: ControlViewController?
     lazy var arTrackingConfig: ARWorldTrackingSessionConfiguration = {
         let config = ARWorldTrackingSessionConfiguration()
-        config.isLightEstimationEnabled = true
+//        config.isLightEstimationEnabled = true
         config.planeDetection = .horizontal
         return config
     }()
@@ -166,20 +166,3 @@ extension ViewController: ARSCNViewDelegate {
     }
 }
 
-extension ARCamera.TrackingState {
-    var description: String {
-        switch self {
-        case .notAvailable:
-            return "Tracking Unavailable"
-        case .normal:
-            return "Tracking Normal"
-        case .limited(let reason):
-            switch reason {
-            case .excessiveMotion:
-                return "Tracking Limited: Too much camera movement"
-            case .insufficientFeatures:
-                return "Tracking Limited: Not enough surface detail"
-            }
-        }
-    }
-}
