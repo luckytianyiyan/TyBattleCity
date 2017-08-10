@@ -104,7 +104,7 @@ class GameMap: SCNNode {
             let position = $0.position
             let distanceX = abs(next.x - position.x)
             let distanceY = abs(next.z - position.z)
-            if (distanceX == 0.5 || distanceX == 0), (distanceY == 0.5 || distanceY == 0) {
+            if (distanceX < 1), (distanceY < 1) {
                 return true
             }
             return false

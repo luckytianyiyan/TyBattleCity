@@ -15,15 +15,19 @@ enum Direction: Int {
     case left
     
     var offset: CGPoint {
+        return offset(unit: CGPoint(x: 0.5, y: 0.5))
+    }
+    
+    func offset(unit: CGPoint) -> CGPoint {
         switch self {
         case .up:
-            return CGPoint(x: 0, y: -0.5)
+            return CGPoint(x: 0, y: -unit.y)
         case .right:
-            return CGPoint(x: 0.5, y: 0)
+            return CGPoint(x: unit.x, y: 0)
         case .down:
-            return CGPoint(x: 0, y: 0.5)
+            return CGPoint(x: 0, y: unit.y)
         case .left:
-            return CGPoint(x: -0.5, y: 0)
+            return CGPoint(x: -unit.x, y: 0)
         }
     }
 }
@@ -50,10 +54,18 @@ class Bullet: SCNNode {
 }
 
 class Tank: SCNNode {
+    
+    enum State: Int {
+        case normal
+        case moving
+        case correcting
+    }
+    
     var body: SCNNode
     var launchingPoint: SCNNode
     var firingRange: CGFloat = 100.0
     var firingRate: CGFloat = 0.2
+    var movingSpeed: Float = 2.5
     var direction: Direction = .down {
         didSet {
             switch direction {
@@ -68,6 +80,7 @@ class Tank: SCNNode {
             }
         }
     }
+    var state: Tank.State = .normal
     private var dstLocation: CGPoint?
     var nextLocation: CGPoint {
         let offset = direction.offset
@@ -80,6 +93,7 @@ class Tank: SCNNode {
         body = scene.rootNode.childNode(withName: "tank", recursively: true)!
         launchingPoint = scene.rootNode.childNode(withName: "launching_point", recursively: true)!
         super.init()
+        body.position = SCNVector3()
         addChildNode(body)
     }
     
@@ -88,39 +102,11 @@ class Tank: SCNNode {
     }
     
     func trun(to direction: Direction) {
-        guard abs(direction.rawValue - self.direction.rawValue) != 2, self.direction != direction else {
+        guard self.direction != direction else {
             return
         }
         self.direction = direction
         print("trun to \(direction)")
-    }
-    
-    func move(direction: Direction? = nil) {
-        if let direction = direction {
-            trun(to: direction)
-        }
-        let next = nextLocation
-        dstLocation = next
-        runAction(SCNAction.move(to: SCNVector3(x: Float(next.x), y: 0, z: Float(next.y)), duration: 0.2), forKey: nil) {
-            print("moved to \(self.position)")
-        }
-    }
-    
-    func moving(direction: Direction? = nil) {
-        removeAllActions()
-        if let direction = direction {
-            trun(to: direction)
-        }
-        let next = nextLocation
-        dstLocation = next
-        runAction(SCNAction.move(to: SCNVector3(x: Float(next.x), y: 0, z: Float(next.y)), duration: 0.2), forKey: nil) {
-            print("moved to \(self.position)")
-            self.moving()
-        }
-    }
-    
-    func stopMoving() {
-        
     }
     
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {
