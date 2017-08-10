@@ -64,8 +64,10 @@ class Tank: SCNNode {
     var body: SCNNode
     var launchingPoint: SCNNode
     var firingRange: CGFloat = 100.0
-    var firingRate: CGFloat = 0.2
+    var bulletSpeed: CGFloat = 8
+    var firingRate: TimeInterval = 0.5
     var movingSpeed: Float = 2.5
+    var firingObstacleTimer: Timer?
     var direction: Direction = .down {
         didSet {
             switch direction {
@@ -110,9 +112,12 @@ class Tank: SCNNode {
     }
     
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {
-        guard let parent = parent else {
+        guard let parent = parent, firingObstacleTimer == nil else {
             return nil
         }
+        firingObstacleTimer = Timer.scheduledTimer(withTimeInterval: firingRate, repeats: false, block: {[weak self] _ in
+            self?.firingObstacleTimer = nil
+        })
         let bullet = Bullet(scale: GameController.shared.mapScale)
         let offset = direction.offset
         bullet.position = convertPosition(launchingPoint.position, to: parent)
@@ -120,7 +125,7 @@ class Tank: SCNNode {
         let distanceX = offset.x * firingRange
         let distanceY = offset.y * firingRange
         let distance = sqrt(distanceX * distanceX + distanceY * distanceY)
-        bullet.runAction(SCNAction.moveBy(x: distanceX, y: 0, z: distanceY, duration: TimeInterval(firingRate * distance))) {
+        bullet.runAction(SCNAction.moveBy(x: distanceX, y: 0, z: distanceY, duration: TimeInterval(distance / bulletSpeed))) {
             completion?(bullet)
         }
         return bullet
