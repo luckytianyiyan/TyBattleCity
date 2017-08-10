@@ -30,6 +30,19 @@ enum Direction: Int {
             return CGPoint(x: -unit.x, y: 0)
         }
     }
+    
+    static func direction(from src: CGPoint, to dst: CGPoint) -> Direction? {
+        if dst.x > src.x {
+            return .right
+        } else if dst.x < src.x {
+            return .left
+        } else if dst.y > src.y {
+            return .down
+        } else if dst.y < src.y {
+            return .up
+        }
+        return nil
+    }
 }
 
 class Bullet: SCNNode {
@@ -68,6 +81,50 @@ class Tank: SCNNode {
     var firingRate: TimeInterval = 0.5
     var movingSpeed: Float = 2.5
     var firingObstacleTimer: Timer?
+    var nearNextPosition: float2 {
+        let mapPosition = float2(x: position.x, y: position.z)
+        let remainderX = mapPosition.x.truncatingRemainder(dividingBy: 0.5)
+        let remainderY = mapPosition.y.truncatingRemainder(dividingBy: 0.5)
+        let floorX = floor(mapPosition.x / 0.5) * 0.5
+        let floorY = floor(mapPosition.y / 0.5) * 0.5
+        var dstX: Float = position.x
+        var dstY: Float = position.z
+        switch direction {
+        case .up:
+            dstY = floorY
+            break
+        case .down:
+            dstY = abs(remainderY) > 0 ? floorY + 0.5 : position.z
+            break
+        case .left:
+            dstX = floorX
+            break
+        case .right:
+            dstX = abs(remainderX) > 0 ? floorX + 0.5 : position.x
+            break
+        }
+        return float2(x: dstX, y: dstY)
+    }
+    var nearPosition: float2 {
+        let mapPosition = float2(x: position.x, y: position.z)
+        let floorX = floor(mapPosition.x / 0.5) * 0.5
+        let floorY = floor(mapPosition.y / 0.5) * 0.5
+        var dstX: Float = floorX
+        var dstY: Float = floorY
+        switch direction {
+        case .down:
+            let remainderY = mapPosition.y.truncatingRemainder(dividingBy: 0.5)
+            dstY = abs(remainderY) > 0 ? floorY + 0.5 : position.z
+            break
+        case .right:
+            let remainderX = mapPosition.x.truncatingRemainder(dividingBy: 0.5)
+            dstX = abs(remainderX) > 0 ? floorX + 0.5 : position.x
+            break
+        default:
+            break
+        }
+        return float2(x: dstX, y: dstY)
+    }
     var direction: Direction = .down {
         didSet {
             switch direction {
@@ -109,6 +166,10 @@ class Tank: SCNNode {
         }
         self.direction = direction
         print("trun to \(direction)")
+    }
+    
+    func move(to dst: CGPoint) {
+        
     }
     
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {

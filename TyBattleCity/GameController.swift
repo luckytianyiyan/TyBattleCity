@@ -7,6 +7,7 @@
 //
 
 import SceneKit
+import Yams
 
 struct CollisionMask : OptionSet {
     let rawValue: Int
@@ -19,10 +20,13 @@ struct CollisionMask : OptionSet {
 class GameController: NSObject {
     static let shared = GameController()
     var player: Tank = Tank()
+    var enemies: [Tank] = []
     var map: GameMap = GameMap()
     var movingSpace: CGFloat = 3
     private var bullets: [Bullet] = []
     var displayLink: CADisplayLink?
+    var aiTimer: Timer?
+    var neededRunAI: Bool = false
     var mapScale: Float = 1 {
         didSet {
             map.scale = SCNVector3(x: mapScale, y: mapScale, z: mapScale)
@@ -51,33 +55,13 @@ class GameController: NSObject {
             return
         }
         player.state = .correcting
-        let mapPosition = float2(x: player.position.x, y: player.position.z)
-        let remainderX = mapPosition.x.truncatingRemainder(dividingBy: 0.5)
-        let remainderY = mapPosition.y.truncatingRemainder(dividingBy: 0.5)
-        let floorX = floor(mapPosition.x / 0.5) * 0.5
-        let floorY = floor(mapPosition.y / 0.5) * 0.5
-        var dstX: Float = player.position.x
-        var dstY: Float = player.position.z
-        switch player.direction {
-        case .up:
-            dstY = floorY
-            break
-        case .down:
-            dstY = abs(remainderY) > 0 ? floorY + 0.5 : player.position.z
-            break
-        case .left:
-            dstX = floorX
-            break
-        case .right:
-            dstX = abs(remainderX) > 0 ? floorX + 0.5 : player.position.x
-            break
-        }
-        if dstX == player.position.x, dstY == player.position.z {
+        let nearNextPosition = player.nearNextPosition
+        if nearNextPosition.x == player.position.x, nearNextPosition.y == player.position.z {
             player.state = .normal
             return
         }
         
-        let dst = SCNVector3(x: dstX, y: player.position.y, z: dstY)
+        let dst = SCNVector3(x: Float(nearNextPosition.x), y: player.position.y, z: Float(nearNextPosition.y))
         guard map.isPassable(dst) else {
             player.state = .normal
             return
@@ -108,22 +92,49 @@ class GameController: NSObject {
         }
     }
     
+    func load(yaml file: String) {
+        guard let content = try? String(contentsOfFile: file, encoding: .utf8),
+            let yml = (try? Yams.load(yaml: content)) as? [String: Any],
+            let size = yml["size"] as? [String: Int],
+            let start = yml["start"] as? [String: Int],
+            let datas = yml["datas"] as? String,
+            let enemyDatas = yml["enemies"] as? [[String: Int]] else {
+                fatalError("can not be load map")
+        }
+        let mapSize = int2.size(size)
+        let startLocation = int2.point(start)
+        map.load(mapSize: mapSize, datas: datas)
+        
+        map.place(tank: player, position: CGPoint(x: CGFloat(startLocation.x), y: CGFloat(startLocation.y)))
+        
+        let enemyPositions = enemyDatas.map { int2.point($0) }
+        for p in enemyPositions {
+            let enemy = Tank()
+            map.place(tank: enemy, position: CGPoint(x: CGFloat(p.x), y: CGFloat(p.y)))
+            enemies.append(enemy)
+        }
+    }
+    
     func prepare(partName: String) {
         guard let filepath = Bundle.main.path(forResource: partName, ofType: "yml") else {
             fatalError("can not load map")
         }
-        map.load(yaml: filepath)
-        map.placePlayer(GameController.shared.player)
+        load(yaml: filepath)
         player.firingRange = CGFloat(map.mapSize.x * 2 + 10)
     }
     
     func startGame() {
-        
-        
+        aiTimer?.invalidate()
+        neededRunAI = true
+        runAIfNeeded()
+        aiTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (_) in
+            self.runAIfNeeded()
+        })
     }
     
     func endGame() {
-        
+        aiTimer?.invalidate()
+        aiTimer = nil
     }
     
     func remove(bullet: Bullet) {
@@ -146,6 +157,49 @@ class GameController: NSObject {
             return
         }
         player.position = next
+        neededRunAI = true
+    }
+    
+    // AI
+    func runAIfNeeded() {
+        guard neededRunAI else {
+            return
+        }
+        let aStar = AStar(stepDistance: 0.5)
+        aStar.delegate = map
+        for enemy in enemies {
+            let enemyPosition = enemy.nearPosition
+            let playerNextPosition = player.nearNextPosition
+            let source = CGPoint(x: CGFloat(enemyPosition.x), y: CGFloat(enemyPosition.y))
+            let dst = CGPoint(x: CGFloat(playerNextPosition.x), y: CGFloat(playerNextPosition.y))
+            let paths = aStar.execute(from: source, to: dst)
+//            let paths = aStar.execute(from: CGPoint(x: 1.5, y: 1.0), to: CGPoint(x: -2.0, y: 3.0))
+            var actions: [SCNAction] = []
+            var lastPosition = source
+            for path in paths {
+                let last = CGPoint(x: lastPosition.x, y: lastPosition.y)
+                let action = SCNAction.run({ (node) in
+                    guard let tank = node as? Tank else {
+                        return
+                    }
+                    let direction: Direction = Direction.direction(from: last, to: path) ?? tank.direction
+                    print("enemy from: \(last), to: \(path), trun to: \(direction)")
+                    tank.trun(to: direction)
+                })
+                actions.append(action)
+                let distanceX = abs(lastPosition.x - path.x)
+                let distanceY = abs(lastPosition.y - path.y)
+                let distance = sqrt(distanceX * distanceX + distanceY * distanceY)
+                let duration = Float(distance) / enemy.movingSpeed
+                let movementAction = SCNAction.move(to: SCNVector3(x: Float(path.x), y: 0, z: Float(path.y)), duration: TimeInterval(duration))
+                actions.append(movementAction)
+                lastPosition = path
+            }
+            print("Run API!!!")
+            enemy.runAction(SCNAction.sequence(actions))
+        }
+        
+        neededRunAI = false
     }
 }
 
@@ -170,6 +224,7 @@ extension GameController: SCNPhysicsContactDelegate {
             if obstacle.type == .brick {
                 map.remove(obstacle: obstacle)
             }
+            neededRunAI = true
         }
     }
     

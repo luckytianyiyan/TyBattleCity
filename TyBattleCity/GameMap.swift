@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Yams
 import SceneKit
 
 extension int2 {
@@ -22,7 +21,6 @@ extension int2 {
 
 class GameMap: SCNNode {
     var mapSize: int2 = int2()
-    var startLocation: int2 = int2()
     var obstacles: [Obstacle] = []
     private(set) var origin: float2 = float2(0.5, 0.5)
     private let world: SCNNode
@@ -47,18 +45,8 @@ class GameMap: SCNNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func load(yaml file: String) {
-        guard let content = try? String(contentsOfFile: file, encoding: .utf8),
-            let yml = (try? Yams.load(yaml: content)) as? [String: Any],
-            let size = yml["size"] as? [String: Int],
-            let start = yml["start"] as? [String: Int],
-            let datas = yml["datas"] as? String,
-            let enemyDatas = yml["enemies"] as? [[String: Int]] else {
-                fatalError("can not be load map")
-        }
-        mapSize = int2.size(size)
-        startLocation = int2.point(start)
-        let enemyPositions = enemyDatas.map { int2.point($0) }
+    func load(mapSize: int2, datas: String) {
+        self.mapSize = mapSize
         
         let floorGeometry = floor.geometry as! SCNBox
         floorGeometry.width = CGFloat(mapSize.x)
@@ -83,18 +71,12 @@ class GameMap: SCNNode {
         cameraNode.position = SCNVector3(x: 0, y: 10, z: 15)
         cameraNode.look(at: SCNVector3())
         world.addChildNode(cameraNode)
-        
-        for p in enemyPositions {
-            let enemy = Tank()
-            enemy.position = SCNVector3(x: origin.x + Float(p.x), y: 0, z: origin.y + Float(p.y))
-            world.addChildNode(enemy)
-        }
     }
     
-    func placePlayer(_ player: Tank) {
-        player.removeFromParentNode()
-        world.addChildNode(player)
-        player.position = SCNVector3(x: origin.x + Float(startLocation.x), y: 0, z: origin.y + Float(startLocation.y))
+    func place(tank: Tank, position: CGPoint) {
+        tank.removeFromParentNode()
+        world.addChildNode(tank)
+        tank.position = SCNVector3(x: origin.x + Float(position.x), y: 0, z: origin.y + Float(position.y))
     }
     
     func remove(obstacle: Obstacle) {
@@ -117,6 +99,16 @@ class GameMap: SCNNode {
             }
             return false
         })
+    }
+}
+
+extension GameMap: AStarDelegate {
+    func coat(from lhs: CGPoint, to rhs: CGPoint) -> Int {
+        return 1
+    }
+    
+    func isPassable(_ position: CGPoint) -> Bool {
+        return isPassable(SCNVector3(x: Float(position.x), y: 0, z: Float(position.y)))
     }
 }
 

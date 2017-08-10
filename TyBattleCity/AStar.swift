@@ -37,7 +37,12 @@ protocol AStarDelegate: class {
 class AStar {
     var open: [AStarStep] = []
     var closed: [AStarStep] = []
+    private(set) var stepDistance: CGFloat
     weak var delegate: AStarDelegate?
+    
+    init(stepDistance: CGFloat = 1) {
+        self.stepDistance = stepDistance
+    }
     
     func execute(from src: CGPoint, to dst: CGPoint) -> [CGPoint] {
         var paths: [CGPoint] = []
@@ -67,16 +72,21 @@ class AStar {
             }
             
             var borderPositions = borderMovablePoints(position: currentStep.position)
-            for (idx, p) in borderPositions.enumerated() {
+            
+            var idx = 0
+            
+            repeat {
+                let position = borderPositions[idx]
                 // Check if the step isn't already in the closed set
-                if closed.contains(where: { p == $0.position }) {
+                if let _ = closed.index(where: { position == $0.position }) {
                     borderPositions.remove(at: idx)
+                    // skip idx += 1
                     continue
                 }
                 
                 var step: AStarStep
-                let moveCost = delegate.coat(from: p, to: dst)
-                if let index = open.index(where: { $0.position == p }) {
+                let moveCost = delegate.coat(from: position, to: dst)
+                if let index = open.index(where: { $0.position == position }) {
                     step = open[index]
                     if currentStep.g + moveCost < step.g {
                         step.g = currentStep.g + moveCost
@@ -84,13 +94,19 @@ class AStar {
                         appendToOpen(step: step)
                     }
                 } else {
-                    step = AStarStep(p)
+                    step = AStarStep(position)
                     step.last = currentStep
                     step.g = currentStep.g + moveCost
-                    let distancePoint = CGPoint(x: p.x - dst.x, y: p.y - dst.y)
+                    let distancePoint = CGPoint(x: position.x - dst.x, y: position.y - dst.y)
                     step.h = Int(abs(distancePoint.x) + abs(distancePoint.y))
                     appendToOpen(step: step)
                 }
+                
+                idx += 1
+            } while idx < borderPositions.count
+            
+            for var idx in 0..<borderPositions.count {
+                
             }
         } while open.count > 0
         
@@ -112,10 +128,10 @@ class AStar {
         guard let delegate = delegate else {
             return []
         }
-        let borderPoints = [CGPoint(x: position.x, y: position.y - 1),//< top
-                            CGPoint(x: position.x, y: position.y + 1),//< bottom
-                            CGPoint(x: position.x - 1, y: position.y),//< left
-                            CGPoint(x: position.x + 1, y: position.y)]//< right
+        let borderPoints = [CGPoint(x: position.x, y: position.y - stepDistance),//< top
+                            CGPoint(x: position.x, y: position.y + stepDistance),//< bottom
+                            CGPoint(x: position.x - stepDistance, y: position.y),//< left
+                            CGPoint(x: position.x + stepDistance, y: position.y)]//< right
         return borderPoints.filter { delegate.isPassable($0) }
     }
 }
