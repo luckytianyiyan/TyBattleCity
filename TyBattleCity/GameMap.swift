@@ -52,11 +52,13 @@ class GameMap: SCNNode {
             let yml = (try? Yams.load(yaml: content)) as? [String: Any],
             let size = yml["size"] as? [String: Int],
             let start = yml["start"] as? [String: Int],
-            let datas = yml["datas"] as? String else {
+            let datas = yml["datas"] as? String,
+            let enemyDatas = yml["enemies"] as? [[String: Int]] else {
                 fatalError("can not be load map")
         }
         mapSize = int2.size(size)
         startLocation = int2.point(start)
+        let enemyPositions = enemyDatas.map { int2.point($0) }
         
         let floorGeometry = floor.geometry as! SCNBox
         floorGeometry.width = CGFloat(mapSize.x)
@@ -81,6 +83,12 @@ class GameMap: SCNNode {
         cameraNode.position = SCNVector3(x: 0, y: 10, z: 15)
         cameraNode.look(at: SCNVector3())
         world.addChildNode(cameraNode)
+        
+        for p in enemyPositions {
+            let enemy = Tank()
+            enemy.position = SCNVector3(x: origin.x + Float(p.x), y: 0, z: origin.y + Float(p.y))
+            world.addChildNode(enemy)
+        }
     }
     
     func placePlayer(_ player: Tank) {

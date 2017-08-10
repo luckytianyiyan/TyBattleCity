@@ -130,7 +130,9 @@ class GameController: NSObject {
         if let idx = bullets.index(of: bullet) {
             bullets.remove(at: idx)
         }
-        bullet.removeFromParentNode()
+        DispatchQueue.main.async {
+            bullet.removeFromParentNode()
+        }
     }
     
     @objc func tankMovement() {
