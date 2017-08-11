@@ -1,0 +1,20 @@
+#!/bin/sh
+required_ver="1.2.0"
+
+if [ ! $(command -v tystrings) ]; then
+  echo "❗️ tystrings command not found"
+  echo "sudo pip install tystrings"
+  exit 1
+elif [ ! `python -c "import tystrings; from pkg_resources import parse_version; print 1 if parse_version(tystrings.__version__) >= parse_version(\"${required_ver}\") else 0;"` ]
+then
+  echo "❗️ require tystrings version $required_ver"
+  echo "sudo pip install tystrings --upgrade"
+  exit 1
+fi
+
+project_name="TyBattleCity"
+
+current_dir=$(dirname $0)
+tystrings generate $(find $current_dir/../$project_name -name \*.m -o -name \*.swift) -o $current_dir/../$project_name/en.lproj $current_dir/../$project_name/zh-Hans.lproj $current_dir/../$project_name/zh-Hant.lproj
+read -n 1 -s -p "Press any key to continue\n"
+tystrings translate $current_dir/../$project_name/zh-Hans.lproj/Localizable.strings $current_dir/../$project_name/zh-Hant.lproj/Localizable.strings --src-lang zh --dst-lang cht --appid 20160709000024959 --secret ke4UYwwvvgV9iQEIVjrC
