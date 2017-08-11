@@ -168,10 +168,6 @@ class Tank: SCNNode {
         print("trun to \(direction)")
     }
     
-    func move(to dst: CGPoint) {
-        
-    }
-    
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {
         guard let parent = parent, firingObstacleTimer == nil else {
             return nil
