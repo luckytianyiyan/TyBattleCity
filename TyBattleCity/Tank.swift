@@ -78,9 +78,9 @@ class Tank: SCNNode {
     
     var body: SCNNode
     var launchingPoint: SCNNode
-    var firingRange: CGFloat = 100.0
-    var bulletSpeed: CGFloat = 8
-    var firingRate: TimeInterval = 0.5
+    var firingRange: CGFloat = Config.tankFiringRange
+    var bulletSpeed: CGFloat = Config.bulletSpeed
+    var firingRate: TimeInterval = Config.FiringRate.tank
     var movingSpeed: Float = 2.5
     var nearNextPosition: float2 {
         let mapPosition = float2(x: position.x, y: position.z)
@@ -196,6 +196,15 @@ class Tank: SCNNode {
 class Player: Tank {
     var firingObstacleTimer: Timer?
     
+    override init() {
+        super.init()
+        firingRate = Config.FiringRate.player
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func fire(completion: ((Bullet) -> Void)?) -> Bullet? {
         guard firingObstacleTimer == nil else {
             return nil
@@ -209,6 +218,16 @@ class Player: Tank {
 
 class Enemy: Tank {
     var firingTimer: Timer?
+    
+    override init() {
+        super.init()
+        firingRate = Config.FiringRate.enemy
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func autoFiring(begin: ((Bullet) -> Void)?, completion: ((Bullet) -> Void)?) {
         firingTimer?.invalidate()
         firingTimer = Timer.scheduledTimer(withTimeInterval: firingRate, repeats: true, block: { _ in

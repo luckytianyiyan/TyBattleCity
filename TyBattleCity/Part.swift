@@ -22,7 +22,7 @@ struct Part {
             let start = yml["start"] as? [String: Int],
             let datas = yml["datas"] as? String,
             let enemyDatas = yml["enemies"] as? [[String: Int]] else {
-                fatalError("can not be load map")
+                fatalError("can not load map")
         }
         mapSize = int2.size(size)
         playerStartPosition = int2.point(start)

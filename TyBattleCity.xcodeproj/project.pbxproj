@@ -17,6 +17,7 @@
 		1917AEE31F3E392C0012A557 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1917AEDF1F3E36A60012A557 /* Localizable.strings */; };
 		1917AEE81F3E39DE0012A557 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19A7F72D1F3B0FBF0088CB1E /* Main.storyboard */; };
 		1917AEEA1F3E3D220012A557 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1917AEE91F3E3D220012A557 /* Part.swift */; };
+		1917AEED1F3E490B0012A557 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1917AEEC1F3E490B0012A557 /* Config.swift */; };
 		1962ACC81F3CD9990001821A /* AStar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1962ACC71F3CD9990001821A /* AStar.swift */; };
 		1962D8281F322FAD00D892AD /* PlaneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1962D8271F322FAD00D892AD /* PlaneNode.swift */; };
 		197CAB0F1F3793280045FA42 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197CAB0E1F3793280045FA42 /* Utils.swift */; };
@@ -47,6 +48,7 @@
 		1917AEE51F3E39B50012A557 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1917AEE91F3E3D220012A557 /* Part.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
 		1917AEEB1F3E481F0012A557 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1917AEEC1F3E490B0012A557 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		191CA58B1F39C120000C92E7 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		191CA58D1F39C1E6000C92E7 /* TyBattleCityBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TyBattleCityBridging.h; sourceTree = "<group>"; };
 		1962ACC71F3CD9990001821A /* AStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStar.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				19CFE3AD1F34BE4B00DDCD5D /* Obstacle.swift */,
 				197CAB0E1F3793280045FA42 /* Utils.swift */,
 				1917AEE91F3E3D220012A557 /* Part.swift */,
+				1917AEEC1F3E490B0012A557 /* Config.swift */,
 				1962ACC71F3CD9990001821A /* AStar.swift */,
 				19A7F72D1F3B0FBF0088CB1E /* Main.storyboard */,
 				19A7F7291F3B0F9C0088CB1E /* LaunchScreen.storyboard */,
@@ -242,6 +245,7 @@
 			files = (
 				1911F51D1F3247A0004B0F78 /* GameViewController.swift in Sources */,
 				19CFE3AE1F34BE4B00DDCD5D /* Obstacle.swift in Sources */,
+				1917AEED1F3E490B0012A557 /* Config.swift in Sources */,
 				1917AEEA1F3E3D220012A557 /* Part.swift in Sources */,
 				19DB241C1F3393AB008A9E01 /* GameMap.swift in Sources */,
 				19DB24131F336258008A9E01 /* Tank.swift in Sources */,
