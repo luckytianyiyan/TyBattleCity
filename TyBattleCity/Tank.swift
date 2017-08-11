@@ -155,16 +155,20 @@ class Tank: SCNNode {
         super.init()
         body.position = SCNVector3()
         addChildNode(body)
-        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0), options: nil))
+        updatePhysicsBody(scale: 1.0)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updatePhysicsBody(scale: CGFloat) {
+        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1 * scale, height: 1 * scale, length: 1 * scale, chamferRadius: 0), options: nil))
         physicsBody.mass = 0
         physicsBody.categoryBitMask = CollisionMask.tank.rawValue
         physicsBody.collisionBitMask = CollisionMask.bullet.rawValue
         physicsBody.contactTestBitMask = CollisionMask.bullet.rawValue
         self.physicsBody = physicsBody
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func trun(to direction: Direction) {

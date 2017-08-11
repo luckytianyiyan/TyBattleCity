@@ -30,10 +30,7 @@ class GameController: NSObject {
     var neededRunAI: Bool = false
     var mapScale: Float = 1 {
         didSet {
-            map.scale = SCNVector3(x: mapScale, y: mapScale, z: mapScale)
-            for item in map.obstacles {
-                item.updatePhysicsBody(scale: CGFloat(mapScale))
-            }
+            updateMapScale()
         }
     }
     
@@ -69,6 +66,7 @@ class GameController: NSObject {
         
         self.part = part
         player.firingRange = CGFloat(map.mapSize.x * 2 + 10)
+        updateMapScale()
     }
     
     @objc func tankMovement() {
@@ -191,6 +189,17 @@ class GameController: NSObject {
         }
         DispatchQueue.main.async {
             bullet.removeFromParentNode()
+        }
+    }
+    
+    func updateMapScale() {
+        map.scale = SCNVector3(x: mapScale, y: mapScale, z: mapScale)
+        for item in map.obstacles {
+            item.updatePhysicsBody(scale: CGFloat(mapScale))
+        }
+        player.updatePhysicsBody(scale: CGFloat(mapScale))
+        for enemy in enemies {
+            enemy.updatePhysicsBody(scale: CGFloat(mapScale))
         }
     }
     

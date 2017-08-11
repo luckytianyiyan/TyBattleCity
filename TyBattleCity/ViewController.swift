@@ -62,8 +62,8 @@ class ViewController: UIViewController {
         
         sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes]
         
-        GameController.shared.prepare(partName: "part-1")
         GameController.shared.mapScale = 0.05
+        GameController.shared.prepare(partName: "part-1")
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognize:)))
         sceneView.addGestureRecognizer(tapGesture)
