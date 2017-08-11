@@ -19,6 +19,7 @@ struct CollisionMask : OptionSet {
 
 class GameController: NSObject {
     static let shared = GameController()
+    var part: Part?
     var player: Tank = Tank()
     var enemies: [Enemy] = []
     var map: GameMap = GameMap()
@@ -40,6 +41,80 @@ class GameController: NSObject {
         super.init()
         displayLink = CADisplayLink(target: self, selector: #selector(tankMovement))
         displayLink?.add(to: RunLoop.current, forMode: .commonModes)
+    }
+    
+    func resetPhysicsBodyTransform() {
+        for obstacle in map.obstacles {
+            obstacle.physicsBody?.resetTransform()
+        }
+    }
+    
+    func load(yaml file: String) {
+        let part = Part(yaml: file)
+        map.load(mapSize: part.mapSize, datas: part.mapDatas)
+        
+        map.place(tank: player, position: CGPoint(x: CGFloat(part.playerStartPosition.x), y: CGFloat(part.playerStartPosition.y)))
+        
+        for p in part.enemyPositions {
+            let enemy = Enemy()
+            map.place(tank: enemy, position: CGPoint(x: CGFloat(p.x), y: CGFloat(p.y)))
+            enemies.append(enemy)
+        }
+        self.part = part
+    }
+    
+    func prepare(partName: String) {
+        guard let filepath = Bundle.main.path(forResource: partName, ofType: "yml") else {
+            fatalError("can not load map")
+        }
+        load(yaml: filepath)
+        player.firingRange = CGFloat(map.mapSize.x * 2 + 10)
+    }
+    
+    @objc func tankMovement() {
+        guard player.state == .moving else {
+            return
+        }
+        let offset = player.direction.offset
+        let step = movingSpace / 60 / 0.5
+        let next = player.position + SCNVector3(x: Float(offset.x * step), y: 0, z: Float(offset.y * step))
+        guard map.isPassable(next) else {
+            return
+        }
+        player.position = next
+        neededRunAI = true
+    }
+    
+    // MARK: Game Control
+    
+    func startGame() {
+        aiTimer?.invalidate()
+        neededRunAI = true
+        for enemy in enemies {
+            let completion: (Bullet) -> Void = { [weak self] (bullet) in
+                self?.remove(bullet: bullet)
+            }
+            enemy.autoFiring(begin: { [weak self] bullet in
+                self?.bullets.append(bullet)
+                }, completion: completion)
+        }
+        runAIfNeeded()
+        aiTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (_) in
+            self.runAIfNeeded()
+        })
+    }
+    
+    func endGame() {
+        aiTimer?.invalidate()
+        aiTimer = nil
+        for enemy in enemies {
+            enemy.stopFiring()
+        }
+        let alertController = UIAlertController(title: NSLocalizedString("game.over", comment: "game"), message: NSLocalizedString("game.over.killed", comment: "game"), preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("game.restart", comment: "game"), style: .default, handler: { _ in
+            self.startGame()
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
     
     func moving(direction: Direction) {
@@ -70,7 +145,7 @@ class GameController: NSObject {
         let distanceY = abs(dst.z - player.position.z)
         let distance = sqrt(distanceX * distanceX + distanceY * distanceY)
         let duration = TimeInterval(distance / player.movingSpeed)
-//        print("correcting: \(player.position) to \(dst), duration: \(duration)")
+        //        print("correcting: \(player.position) to \(dst), duration: \(duration)")
         player.runAction(SCNAction.move(to: dst, duration: duration), forKey: "correcting") {
             self.player.state = .normal
         }
@@ -86,69 +161,18 @@ class GameController: NSObject {
         bullets.append(bullet)
     }
     
-    func resetPhysicsBodyTransform() {
-        for obstacle in map.obstacles {
-            obstacle.physicsBody?.resetTransform()
-        }
-    }
+    // MARK: Helper
     
-    func load(yaml file: String) {
-        guard let content = try? String(contentsOfFile: file, encoding: .utf8),
-            let yml = (try? Yams.load(yaml: content)) as? [String: Any],
-            let size = yml["size"] as? [String: Int],
-            let start = yml["start"] as? [String: Int],
-            let datas = yml["datas"] as? String,
-            let enemyDatas = yml["enemies"] as? [[String: Int]] else {
-                fatalError("can not be load map")
-        }
-        let mapSize = int2.size(size)
-        let startLocation = int2.point(start)
-        map.load(mapSize: mapSize, datas: datas)
-        
-        map.place(tank: player, position: CGPoint(x: CGFloat(startLocation.x), y: CGFloat(startLocation.y)))
-        
-        let enemyPositions = enemyDatas.map { int2.point($0) }
-        for p in enemyPositions {
-            let enemy = Enemy()
-            map.place(tank: enemy, position: CGPoint(x: CGFloat(p.x), y: CGFloat(p.y)))
-            enemies.append(enemy)
-        }
-    }
-    
-    func prepare(partName: String) {
-        guard let filepath = Bundle.main.path(forResource: partName, ofType: "yml") else {
-            fatalError("can not load map")
-        }
-        load(yaml: filepath)
-        player.firingRange = CGFloat(map.mapSize.x * 2 + 10)
-    }
-    
-    func startGame() {
-        aiTimer?.invalidate()
-        neededRunAI = true
+    func clear() {
         for enemy in enemies {
-            let completion: (Bullet) -> Void = { [weak self] (bullet) in
-                self?.remove(bullet: bullet)
-            }
-            enemy.autoFiring(begin: { [weak self] bullet in
-                self?.bullets.append(bullet)
-            }, completion: completion)
+            enemy.removeFromParentNode()
         }
-        runAIfNeeded()
-        aiTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (_) in
-            self.runAIfNeeded()
-        })
-    }
-    
-    func endGame() {
-        aiTimer?.invalidate()
-        aiTimer = nil
-        print("game over")
-        let alertController = UIAlertController(title: nil, message: "Game Over", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { _ in
-            self.startGame()
-        }))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+        enemies.removeAll()
+        
+        for bullet in bullets {
+            bullet.removeFromParentNode()
+        }
+        bullets.removeAll()
     }
     
     func remove(bullet: Bullet) {
@@ -160,21 +184,7 @@ class GameController: NSObject {
         }
     }
     
-    @objc func tankMovement() {
-        guard player.state == .moving else {
-            return
-        }
-        let offset = player.direction.offset
-        let step = movingSpace / 60 / 0.5
-        let next = player.position + SCNVector3(x: Float(offset.x * step), y: 0, z: Float(offset.y * step))
-        guard map.isPassable(next) else {
-            return
-        }
-        player.position = next
-        neededRunAI = true
-    }
-    
-    // AI
+    // MARK: AI
     func runAIfNeeded() {
         guard neededRunAI else {
             return

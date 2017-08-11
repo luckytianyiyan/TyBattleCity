@@ -104,10 +104,6 @@ class AStar {
                 
                 idx += 1
             } while idx < borderPositions.count
-            
-            for var idx in 0..<borderPositions.count {
-                
-            }
         } while open.count > 0
         
         return paths
