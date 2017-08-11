@@ -118,6 +118,7 @@ class GameController: NSObject {
         aiTimer = nil
         for enemy in enemies {
             enemy.stopFiring()
+            enemy.removeAllActions()
         }
         let alertController = UIAlertController(title: NSLocalizedString("game.over", comment: "game"), message: NSLocalizedString("game.over.killed", comment: "game"), preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: NSLocalizedString("game.restart", comment: "game"), style: .default, handler: { _ in

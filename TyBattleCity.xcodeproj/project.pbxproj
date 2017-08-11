@@ -44,9 +44,9 @@
 		1917199B1F30D98C003FC888 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1917AEE01F3E36A60012A557 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1917AEE11F3E36BC0012A557 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		1917AEE21F3E38D00012A557 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1917AEE51F3E39B50012A557 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1917AEE91F3E3D220012A557 /* Part.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
+		1917AEEB1F3E481F0012A557 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		191CA58B1F39C120000C92E7 /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		191CA58D1F39C1E6000C92E7 /* TyBattleCityBridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TyBattleCityBridging.h; sourceTree = "<group>"; };
 		1962ACC71F3CD9990001821A /* AStar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AStar.swift; sourceTree = "<group>"; };
@@ -187,7 +187,6 @@
 			knownRegions = (
 				en,
 				"zh-Hans",
-				Base,
 				"zh-Hant",
 			);
 			mainGroup = 191719811F30D98C003FC888;
@@ -274,7 +273,7 @@
 		19A7F72D1F3B0FBF0088CB1E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1917AEE21F3E38D00012A557 /* Base */,
+				1917AEEB1F3E481F0012A557 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
