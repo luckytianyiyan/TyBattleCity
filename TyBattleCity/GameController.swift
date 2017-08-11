@@ -20,7 +20,7 @@ struct CollisionMask : OptionSet {
 class GameController: NSObject {
     static let shared = GameController()
     var player: Tank = Tank()
-    var enemies: [Tank] = []
+    var enemies: [Enemy] = []
     var map: GameMap = GameMap()
     var movingSpace: CGFloat = 3
     private var bullets: [Bullet] = []
@@ -109,7 +109,7 @@ class GameController: NSObject {
         
         let enemyPositions = enemyDatas.map { int2.point($0) }
         for p in enemyPositions {
-            let enemy = Tank()
+            let enemy = Enemy()
             map.place(tank: enemy, position: CGPoint(x: CGFloat(p.x), y: CGFloat(p.y)))
             enemies.append(enemy)
         }
@@ -126,6 +126,14 @@ class GameController: NSObject {
     func startGame() {
         aiTimer?.invalidate()
         neededRunAI = true
+        for enemy in enemies {
+            let completion: (Bullet) -> Void = { [weak self] (bullet) in
+                self?.remove(bullet: bullet)
+            }
+            enemy.autoFiring(begin: { [weak self] bullet in
+                self?.bullets.append(bullet)
+            }, completion: completion)
+        }
         runAIfNeeded()
         aiTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (_) in
             self.runAIfNeeded()
@@ -135,6 +143,12 @@ class GameController: NSObject {
     func endGame() {
         aiTimer?.invalidate()
         aiTimer = nil
+        print("game over")
+        let alertController = UIAlertController(title: nil, message: "Game Over", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { _ in
+            self.startGame()
+        }))
+        UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
     }
     
     func remove(bullet: Bullet) {
@@ -173,7 +187,6 @@ class GameController: NSObject {
             let source = CGPoint(x: CGFloat(enemyPosition.x), y: CGFloat(enemyPosition.y))
             let dst = CGPoint(x: CGFloat(playerNextPosition.x), y: CGFloat(playerNextPosition.y))
             let paths = aStar.execute(from: source, to: dst)
-//            let paths = aStar.execute(from: CGPoint(x: 1.5, y: 1.0), to: CGPoint(x: -2.0, y: 3.0))
             var actions: [SCNAction] = []
             var lastPosition = source
             for path in paths {
@@ -224,6 +237,31 @@ extension GameController: SCNPhysicsContactDelegate {
             if obstacle.type == .brick {
                 map.remove(obstacle: obstacle)
             }
+            neededRunAI = true
+        } else if (maskA | maskB) == (CollisionMask.bullet.rawValue | CollisionMask.tank.rawValue) {
+            var bullet: Bullet
+            var target: Tank
+            if let tank = nodeA as? Tank {
+                bullet = nodeB as! Bullet
+                target = tank
+            } else if let tank = nodeB as? Tank {
+                bullet = nodeA as! Bullet
+                target = tank
+            } else {
+                return
+            }
+            guard target != bullet.owner else {
+                return
+            }
+            remove(bullet: bullet)
+            if target == player {
+                endGame()
+                return
+            }
+            if let enemy = target as? Enemy, let idx = enemies.index(of: enemy) {
+                enemies.remove(at: idx)
+            }
+            target.removeFromParentNode()
             neededRunAI = true
         }
     }

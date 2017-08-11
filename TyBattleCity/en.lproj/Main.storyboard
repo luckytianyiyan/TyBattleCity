@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="2sA-Jl-kaE">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -58,7 +58,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                             <state key="normal" backgroundImage="control_up"/>
                                             <connections>
-                                                <action selector="onLeftButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="JmG-lR-q5g"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchCancel" id="SLV-zy-2tb"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpInside" id="dwt-Fx-df8"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpOutside" id="jOk-Ek-Rms"/>
+                                                <action selector="down:" destination="QXA-I0-cwn" eventType="touchDown" id="oGq-aX-Pai"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -87,7 +90,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                             <state key="normal" backgroundImage="control_up"/>
                                             <connections>
-                                                <action selector="onUpButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DT3-P0-aXJ"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchCancel" id="VZm-oV-Dlh"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpInside" id="b8R-WT-hFH"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpOutside" id="g5t-qc-Qj7"/>
+                                                <action selector="down:" destination="QXA-I0-cwn" eventType="touchDown" id="3A6-j1-Plz"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -116,7 +122,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                             <state key="normal" backgroundImage="control_up"/>
                                             <connections>
-                                                <action selector="onRightButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="ugR-hF-Vhm"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpOutside" id="MDn-lf-A5n"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchCancel" id="Mv4-OD-zHJ"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpInside" id="Sv1-3B-Zea"/>
+                                                <action selector="down:" destination="QXA-I0-cwn" eventType="touchDown" id="7Ko-HS-yET"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -145,7 +154,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                             <state key="normal" backgroundImage="control_up"/>
                                             <connections>
-                                                <action selector="onDownButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="L9i-4l-yMX"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchCancel" id="1oU-Wx-trZ"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DDT-n4-c0e"/>
+                                                <action selector="cancel:" destination="QXA-I0-cwn" eventType="touchUpOutside" id="om2-KB-gdZ"/>
+                                                <action selector="down:" destination="QXA-I0-cwn" eventType="touchDown" id="yC9-3P-KBx"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -174,7 +186,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="64" height="63"/>
                                             <state key="normal" backgroundImage="fire"/>
                                             <connections>
-                                                <action selector="onFireButtonClick:" destination="QXA-I0-cwn" eventType="touchUpInside" id="DOc-f8-OHU"/>
+                                                <action selector="fire:" destination="QXA-I0-cwn" eventType="touchUpInside" id="5v7-Au-y9D"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -210,8 +222,9 @@
                     </view>
                     <connections>
                         <outlet property="downButton" destination="I6P-23-4tC" id="2Ff-43-Z1M"/>
-                        <outlet property="leftButton" destination="dbP-Uo-cLt" id="3Wa-T8-0Pg"/>
+                        <outlet property="leftButton" destination="dbP-Uo-cLt" id="tNQ-q7-JXV"/>
                         <outlet property="rightButton" destination="eAB-vO-oFw" id="FWB-qd-EMC"/>
+                        <outlet property="upButton" destination="335-L8-yLp" id="wrL-ty-eph"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FbF-2r-Iag" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -47,10 +47,12 @@ enum Direction: Int {
 
 class Bullet: SCNNode {
     var body: SCNNode
-    init(scale: Float = 1) {
+    weak var owner: SCNNode?
+    init(owner: SCNNode? = nil, scale: Float = 1) {
         let scene = SCNScene(named: "Assets.scnassets/tank.scn")!
         body = scene.rootNode.childNode(withName: "bullet", recursively: true)!
         super.init()
+        self.owner = owner
         body.position = SCNVector3()
         addChildNode(body)
         let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNSphere(radius: CGFloat(0.05 * scale)), options: nil))
@@ -80,7 +82,6 @@ class Tank: SCNNode {
     var bulletSpeed: CGFloat = 8
     var firingRate: TimeInterval = 0.5
     var movingSpeed: Float = 2.5
-    var firingObstacleTimer: Timer?
     var nearNextPosition: float2 {
         let mapPosition = float2(x: position.x, y: position.z)
         let remainderX = mapPosition.x.truncatingRemainder(dividingBy: 0.5)
@@ -154,6 +155,12 @@ class Tank: SCNNode {
         super.init()
         body.position = SCNVector3()
         addChildNode(body)
+        let physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(geometry: SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0), options: nil))
+        physicsBody.mass = 0
+        physicsBody.categoryBitMask = CollisionMask.tank.rawValue
+        physicsBody.collisionBitMask = CollisionMask.bullet.rawValue
+        physicsBody.contactTestBitMask = CollisionMask.bullet.rawValue
+        self.physicsBody = physicsBody
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -169,13 +176,10 @@ class Tank: SCNNode {
     }
     
     func fire(completion: ((_ bullet: Bullet) -> Void)?) -> Bullet? {
-        guard let parent = parent, firingObstacleTimer == nil else {
+        guard let parent = parent else {
             return nil
         }
-        firingObstacleTimer = Timer.scheduledTimer(withTimeInterval: firingRate, repeats: false, block: {[weak self] _ in
-            self?.firingObstacleTimer = nil
-        })
-        let bullet = Bullet(scale: GameController.shared.mapScale)
+        let bullet = Bullet(owner: self, scale: GameController.shared.mapScale)
         let offset = direction.offset
         bullet.position = convertPosition(launchingPoint.position, to: parent)
         parent.addChildNode(bullet)
@@ -189,3 +193,33 @@ class Tank: SCNNode {
     }
 }
 
+class Player: Tank {
+    var firingObstacleTimer: Timer?
+    
+    override func fire(completion: ((Bullet) -> Void)?) -> Bullet? {
+        guard firingObstacleTimer == nil else {
+            return nil
+        }
+        firingObstacleTimer = Timer.scheduledTimer(withTimeInterval: firingRate, repeats: false, block: {[weak self] _ in
+            self?.firingObstacleTimer = nil
+        })
+        return super.fire(completion: completion)
+    }
+}
+
+class Enemy: Tank {
+    var firingTimer: Timer?
+    func autoFiring(begin: ((Bullet) -> Void)?, completion: ((Bullet) -> Void)?) {
+        firingTimer?.invalidate()
+        firingTimer = Timer.scheduledTimer(withTimeInterval: firingRate, repeats: true, block: { _ in
+            if let bullet = self.fire(completion: completion) {
+                begin?(bullet)
+            }
+        })
+    }
+    
+    func stopFiring() {
+        firingTimer?.invalidate()
+        firingTimer = nil
+    }
+}
