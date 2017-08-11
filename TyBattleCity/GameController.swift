@@ -20,7 +20,7 @@ struct CollisionMask : OptionSet {
 class GameController: NSObject {
     static let shared = GameController()
     var part: Part?
-    var player: Tank = Tank()
+    var player: Player = Player()
     var enemies: [Enemy] = []
     var map: GameMap = GameMap()
     var movingSpace: CGFloat = 3
@@ -49,8 +49,14 @@ class GameController: NSObject {
         }
     }
     
-    func load(yaml file: String) {
-        let part = Part(yaml: file)
+    func prepare(partName: String) {
+        guard let filepath = Bundle.main.path(forResource: partName, ofType: "yml") else {
+            fatalError("can not load map")
+        }
+        prepare(part: Part(yaml: filepath))
+    }
+    
+    func prepare(part: Part) {
         map.load(mapSize: part.mapSize, datas: part.mapDatas)
         
         map.place(tank: player, position: CGPoint(x: CGFloat(part.playerStartPosition.x), y: CGFloat(part.playerStartPosition.y)))
@@ -60,14 +66,8 @@ class GameController: NSObject {
             map.place(tank: enemy, position: CGPoint(x: CGFloat(p.x), y: CGFloat(p.y)))
             enemies.append(enemy)
         }
+        
         self.part = part
-    }
-    
-    func prepare(partName: String) {
-        guard let filepath = Bundle.main.path(forResource: partName, ofType: "yml") else {
-            fatalError("can not load map")
-        }
-        load(yaml: filepath)
         player.firingRange = CGFloat(map.mapSize.x * 2 + 10)
     }
     
@@ -104,6 +104,15 @@ class GameController: NSObject {
         })
     }
     
+    func restartGame() {
+        guard let part = self.part else {
+            return
+        }
+        clear()
+        prepare(part: part)
+        startGame()
+    }
+    
     func endGame() {
         aiTimer?.invalidate()
         aiTimer = nil
@@ -112,7 +121,7 @@ class GameController: NSObject {
         }
         let alertController = UIAlertController(title: NSLocalizedString("game.over", comment: "game"), message: NSLocalizedString("game.over.killed", comment: "game"), preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: NSLocalizedString("game.restart", comment: "game"), style: .default, handler: { _ in
-            self.startGame()
+            self.restartGame()
         }))
         UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
     }

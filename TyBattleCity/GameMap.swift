@@ -39,6 +39,12 @@ class GameMap: SCNNode {
         super.init()
         world.position = SCNVector3()
         addChildNode(world)
+        
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        cameraNode.position = SCNVector3(x: 0, y: 10, z: 15)
+        cameraNode.look(at: SCNVector3())
+        world.addChildNode(cameraNode)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,8 +52,14 @@ class GameMap: SCNNode {
     }
     
     func load(mapSize: int2, datas: String) {
-        self.mapSize = mapSize
+        // clear
+        for obstacle in obstacles {
+            obstacle.removeFromParentNode()
+        }
+        obstacles.removeAll()
         
+        // load
+        self.mapSize = mapSize
         let floorGeometry = floor.geometry as! SCNBox
         floorGeometry.width = CGFloat(mapSize.x)
         floorGeometry.length = CGFloat(mapSize.y)
@@ -65,12 +77,6 @@ class GameMap: SCNNode {
             obstacles.append(obstacle)
             world.addChildNode(obstacle)
         }
-        
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: 10, z: 15)
-        cameraNode.look(at: SCNVector3())
-        world.addChildNode(cameraNode)
     }
     
     func place(tank: Tank, position: CGPoint) {

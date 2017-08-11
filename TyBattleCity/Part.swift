@@ -27,6 +27,6 @@ struct Part {
         mapSize = int2.size(size)
         playerStartPosition = int2.point(start)
         enemyPositions = enemyDatas.map { int2.point($0) }
-        mapDatas = datas
+        mapDatas = String(datas.unicodeScalars.filter({ !CharacterSet.whitespacesAndNewlines.contains($0) }))
     }
 }

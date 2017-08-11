@@ -89,11 +89,6 @@ class ViewController: UIViewController {
         sceneView.session.pause()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
     // MARK: Gesture Recognizer
     @objc func handleTap(recognize: UIGestureRecognizer) {
         guard state == .selectPlane else {
@@ -141,6 +136,8 @@ extension ViewController: ARSCNViewDelegate {
         }
         planeNote.update(anchor: anchor)
     }
+    
+    // MARK: ARSessionObserver
     
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
         let hud = MBProgressHUD(for: view) ?? MBProgressHUD.showAdded(to: view, animated: true)
