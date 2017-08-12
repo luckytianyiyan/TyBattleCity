@@ -8,3 +8,12 @@
           \__.'                                                           \__.'    
 ```
 ---
+
+Requirements
+---
+iOS 11 or later
+iPhone 6s+ or 
+
+Inspiration and UX Reference
+---
+TyBattleCity is inspired by [WWDC 2017 ARKit Demo App](https://developer.apple.com/sample-code/wwdc/2017/PlacingObjects.zip), [3DSnakeAR](https://github.com/PGSSoft/3DSnakeAR), [Apple ARKit Example App](https://github.com/markdaws/arkit-by-example).

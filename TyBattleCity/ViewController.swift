@@ -60,7 +60,9 @@ class ViewController: UIViewController {
         // Set the scene to the view
         sceneView.scene = scene
         
-        sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes]
+        if Config.debug {
+            sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes]
+        }
         
         GameController.shared.mapScale = 0.05
         GameController.shared.prepare(partName: "part-1")

@@ -9,6 +9,8 @@
 import Foundation
 
 struct Config {
+    static let debug: Bool = false
+    
     struct FiringRate {
         static let player: TimeInterval = 0.5
         static let enemy: TimeInterval = 0.5
