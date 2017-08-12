@@ -15,13 +15,6 @@ class ControlViewController: UIViewController {
     @IBOutlet weak var downButton: UIButton!
     var continuedControlTimer: Timer?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        leftButton.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-        rightButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
-        downButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-    }
-    
     @IBAction func down(_ sender: UIButton) {
         var direction: Direction = .up
         if sender == upButton {
