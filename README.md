@@ -11,8 +11,14 @@
 
 Requirements
 ---
-iOS 11 or later
-iPhone 6s+ or 
+- iOS 11+
+
+supports the following devices:
+
+- iPhone 6S and upwards
+- iPhone SE
+- iPad (2017)
+- All iPad Pro models
 
 Inspiration and UX Reference
 ---
