@@ -38,8 +38,8 @@ class ViewController: UIViewController {
     var planes: [ARPlaneAnchor: PlaneNode] = [:]
     var selectedPlane: PlaneNode?
     var controlViewController: ControlViewController?
-    lazy var arTrackingConfig: ARWorldTrackingSessionConfiguration = {
-        let config = ARWorldTrackingSessionConfiguration()
+    lazy var arTrackingConfig: ARWorldTrackingConfiguration = {
+        let config = ARWorldTrackingConfiguration()
 //        config.isLightEstimationEnabled = true
         config.planeDetection = .horizontal
         return config

@@ -32,6 +32,8 @@ extension ARCamera.TrackingState {
                 return "Tracking Limited: Too much camera movement"
             case .insufficientFeatures:
                 return "Tracking Limited: Not enough surface detail"
+            case .initializing:
+                return "Tracking Initializing"
             }
         }
     }
